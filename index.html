@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WADE MLBB Clips</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0a0e1a;
+    --navy-2: #0d1526;
+    --navy-3: #111c33;
+    --navy-4: #162040;
+    --navy-5: #1a2850;
+    --navy-card: #0f1a30;
+    --blue-bright: #1e90ff;
+    --blue-glow: #2563eb;
+    --blue-light: #60a5fa;
+    --blue-muted: #1e3a6e;
+    --gold: #f59e0b;
+    --gold-light: #fcd34d;
+    --text-primary: #e8eaf6;
+    --text-secondary: #8ba3c7;
+    --text-muted: #4a6080;
+    --border: rgba(30, 144, 255, 0.12);
+    --border-hover: rgba(30, 144, 255, 0.3);
+    --red: #ef4444;
+    --green: #22c55e;
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
+    --shadow-glow: 0 0 20px rgba(30,144,255,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--navy);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy-2); }
+  ::-webkit-scrollbar-thumb { background: var(--blue-muted); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--blue-glow); }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(30,144,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,144,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #root { position: relative; z-index: 1; }
+
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-size: 1.5rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text-primary);
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; cursor: pointer;
+  }
+
+  .nav-logo span.accent { color: var(--blue-bright); }
+
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+  .nav-btn {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 4px;
+    border: 1px solid var(--border-hover); background: transparent;
+    color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+  }
+
+  .nav-btn:hover { background: var(--blue-muted); color: var(--text-primary); border-color: var(--blue-bright); }
+  .nav-btn.admin { background: var(--blue-glow); color: #fff; border-color: var(--blue-glow); }
+  .nav-btn.admin:hover { background: var(--blue-bright); }
+
+  .hero { padding: 4rem 2rem 3rem; max-width: 1200px; margin: 0 auto; }
+
+  .hero-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--blue-bright);
+    margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;
+  }
+
+  .hero-label::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--blue-bright); }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700;
+    line-height: 1.1; letter-spacing: 0.02em; margin-bottom: 1rem;
+  }
+
+  .hero h1 em { font-style: normal; color: var(--blue-bright); }
+  .hero p { color: var(--text-secondary); font-size: 1rem; max-width: 500px; line-height: 1.7; }
+
+  .stats-bar { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+  .stat-item { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); line-height: 1; }
+  .stat-num span { color: var(--blue-bright); }
+  .stat-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+  .stat-divider { width: 1px; background: var(--border); align-self: stretch; margin: 4px 0; }
+
+  .search-section {
+    max-width: 1200px; margin: 0 auto 2.5rem; padding: 0 2rem;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+
+  .search-wrap { flex: 1; min-width: 220px; position: relative; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+
+  .search-input {
+    width: 100%; font-size: 0.9rem; padding: 10px 14px 10px 42px;
+    background: var(--navy-card); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text-primary); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-input::placeholder { color: var(--text-muted); }
+  .search-input:focus { border-color: var(--blue-bright); box-shadow: 0 0 0 3px rgba(30,144,255,0.1); }
+
+  .hero-chips { max-width: 1200px; margin: 0 auto 2rem; padding: 0 2rem; display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .hero-chip {
+    font-size: 0.78rem; font-weight: 500; padding: 5px 14px; border-radius: 20px;
+    border: 1px solid var(--border); background: transparent; color: var(--text-muted);
+    cursor: pointer; transition: all 0.18s; letter-spacing: 0.03em;
+  }
+
+  .hero-chip:hover { border-color: var(--border-hover); color: var(--text-secondary); background: rgba(30,144,255,0.06); }
+  .hero-chip.active { border-color: var(--gold); color: var(--gold-light); background: rgba(245,158,11,0.1); }
+
+  .clip-grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+
+  .section-title {
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-secondary);
+  }
+
+  .section-count {
+    font-size: 0.8rem; color: var(--text-muted); background: var(--navy-card);
+    padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border);
+  }
+
+  .clip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+  .clip-card {
+    background: var(--navy-card); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; transition: all 0.25s; cursor: pointer;
+  }
+
+  .clip-card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: var(--shadow-card), var(--shadow-glow); }
+
+  .clip-thumb { position: relative; aspect-ratio: 16/9; background: var(--navy-3); overflow: hidden; }
+  .clip-thumb video { width: 100%; height: 100%; object-fit: cover; }
+
+  .clip-thumb-placeholder {
+    width: 100%; height: 100%; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, var(--navy-3), var(--navy-5));
+  }
+
+  .play-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.2s;
+  }
+
+  .clip-card:hover .play-overlay { opacity: 1; }
+
+  .play-btn-circle {
+    width: 52px; height: 52px; background: rgba(30,144,255,0.9); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+  }
+
+  .clip-badge {
+    position: absolute; top: 8px; left: 8px; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+    background: rgba(10,14,26,0.85); border: 1px solid var(--border-hover);
+    color: var(--blue-light); backdrop-filter: blur(4px);
+  }
+
+  .clip-duration {
+    position: absolute; bottom: 8px; right: 8px; font-size: 0.75rem; font-weight: 600;
+    padding: 2px 7px; border-radius: 3px; background: rgba(0,0,0,0.75); color: #fff;
+  }
+
+  .clip-info { padding: 14px 16px; }
+
+  .clip-hero-tag {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 5px;
+  }
+
+  .clip-title { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; margin-bottom: 10px; }
+  .clip-meta { display: flex; justify-content: space-between; align-items: center; }
+  .clip-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+  .clip-tag {
+    font-size: 0.68rem; padding: 2px 7px; border-radius: 3px;
+    background: rgba(30,144,255,0.08); border: 1px solid rgba(30,144,255,0.15); color: var(--text-secondary);
+  }
+
+  .dl-btn {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 5px; border: 1px solid var(--blue-glow);
+    background: rgba(30,144,255,0.1); color: var(--blue-light); cursor: pointer;
+    transition: all 0.18s; display: flex; align-items: center; gap: 5px; text-decoration: none;
+  }
+
+  .dl-btn:hover { background: var(--blue-glow); color: #fff; }
+
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 5rem 2rem; }
+  .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+  .empty-state h3 { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+  .empty-state p { font-size: 0.85rem; color: var(--text-muted); }
+
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+    z-index: 200; display: flex; align-items: center; justify-content: center;
+    padding: 2rem; animation: fadeIn 0.15s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal-content {
+    background: var(--navy-card); border: 1px solid var(--border-hover); border-radius: 12px;
+    width: 100%; max-width: 800px; overflow: hidden; animation: slideUp 0.2s ease;
+  }
+
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+  }
+
+  .modal-title { font-size: 1.15rem; font-weight: 700; }
+
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-secondary); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.15s;
+  }
+
+  .modal-close:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+  .modal-video {
+    width: 100%; aspect-ratio: 16/9; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); font-size: 0.9rem; flex-direction: column; gap: 12px;
+  }
+
+  .modal-video video { width: 100%; height: 100%; object-fit: contain; }
+
+  .modal-footer {
+    padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; flex-wrap: wrap;
+  }
+
+  .modal-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  /* ADMIN */
+  .admin-layout { display: flex; min-height: calc(100vh - 64px); }
+
+  .admin-sidebar {
+    width: 220px; background: var(--navy-2); border-right: 1px solid var(--border);
+    padding: 1.5rem 0; flex-shrink: 0;
+  }
+
+  .admin-sidebar-title {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); padding: 0 1.25rem; margin-bottom: 0.75rem;
+  }
+
+  .admin-nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 1.25rem;
+    font-size: 0.88rem; color: var(--text-secondary); cursor: pointer;
+    transition: all 0.15s; border-left: 2px solid transparent; font-weight: 500;
+  }
+
+  .admin-nav-item:hover { background: rgba(30,144,255,0.05); color: var(--text-primary); }
+  .admin-nav-item.active { background: rgba(30,144,255,0.08); color: var(--blue-light); border-left-color: var(--blue-bright); }
+
+  .admin-main { flex: 1; padding: 2rem; overflow-y: auto; }
+  .admin-page-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .admin-page-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+  .admin-metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+
+  .metric-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
+  .metric-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  .metric-num { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
+  .metric-num span { color: var(--blue-bright); }
+
+  .form-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+
+  .form-card h3 {
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-secondary); margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.04em; }
+
+  .form-input, .form-select, .form-textarea {
+    font-size: 0.88rem; padding: 9px 12px; background: var(--navy-3);
+    border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--blue-bright); box-shadow: 0 0 0 3px rgba(30,144,255,0.1); }
+  .form-select option { background: var(--navy-3); color: var(--text-primary); }
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  .btn-primary {
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 10px 24px; border-radius: 6px; border: none; background: var(--blue-glow);
+    color: #fff; cursor: pointer; transition: all 0.18s; font-family: inherit;
+  }
+
+  .btn-primary:hover { background: var(--blue-bright); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-danger {
+    font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 4px;
+    border: 1px solid rgba(239,68,68,0.3); background: rgba(239,68,68,0.08);
+    color: #f87171; cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+
+  .btn-danger:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+  .admin-table-wrap { background: var(--navy-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+  .admin-table th {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); padding: 12px 16px; text-align: left;
+    background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border);
+  }
+
+  .admin-table td { padding: 12px 16px; border-bottom: 1px solid rgba(30,144,255,0.06); color: var(--text-secondary); vertical-align: middle; }
+  .admin-table tr:last-child td { border-bottom: none; }
+  .admin-table tr:hover td { background: rgba(30,144,255,0.03); color: var(--text-primary); }
+  .table-title { color: var(--text-primary); font-weight: 500; }
+
+  .table-badge {
+    display: inline-block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 3px;
+    background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); color: var(--gold-light);
+  }
+
+  .table-actions { display: flex; gap: 6px; }
+
+  .login-wrap { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 2rem; }
+
+  .login-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; width: 100%; max-width: 380px; }
+
+  .login-icon {
+    width: 52px; height: 52px; background: linear-gradient(135deg, var(--blue-glow), var(--blue-bright));
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.5rem;
+  }
+
+  .login-card h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .login-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+  /* GDRIVE CONVERTER BOX */
+  .gdrive-box {
+    background: linear-gradient(135deg, rgba(30,144,255,0.06), rgba(37,99,235,0.04));
+    border: 1px solid rgba(30,144,255,0.25);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .gdrive-box-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; font-weight: 600; color: var(--blue-light);
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  .gdrive-box-title .gdrive-icon { font-size: 1rem; }
+
+  .gdrive-converted {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(34,197,94,0.08);
+    border: 1px solid rgba(34,197,94,0.25);
+    border-radius: 6px;
+    font-size: 0.78rem;
+    color: #86efac;
+    word-break: break-all;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .gdrive-converted span { flex: 1; }
+
+  .gdrive-copy-btn {
+    font-size: 0.72rem; font-weight: 600; padding: 3px 9px; border-radius: 4px;
+    border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.1);
+    color: #86efac; cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: inherit;
+    flex-shrink: 0;
+  }
+
+  .gdrive-copy-btn:hover { background: rgba(34,197,94,0.2); }
+
+  .file-drop {
+    border: 2px dashed var(--border-hover); border-radius: 8px; padding: 2rem;
+    text-align: center; cursor: pointer; transition: all 0.2s; background: rgba(30,144,255,0.02);
+  }
+
+  .file-drop:hover, .file-drop.dragover { border-color: var(--blue-bright); background: rgba(30,144,255,0.06); }
+  .file-drop-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
+  .file-drop p { font-size: 0.85rem; color: var(--text-secondary); }
+  .file-drop small { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px; }
+
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; background: var(--navy-card);
+    border: 1px solid var(--green); border-radius: 8px; padding: 12px 18px;
+    font-size: 0.85rem; color: var(--green); z-index: 500;
+    animation: slideIn 0.2s ease; display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+
+  @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .divider-text {
+    display: flex; align-items: center; gap: 12px; margin: 14px 0;
+    color: var(--text-muted); font-size: 0.78rem;
+  }
+
+  .divider-text::before, .divider-text::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .search-section { padding: 0 1.25rem; }
+    .hero-chips { padding: 0 1.25rem; }
+    .clip-grid-wrap { padding: 0 1.25rem 3rem; }
+    .nav { padding: 0 1.25rem; }
+    .admin-sidebar { display: none; }
+    .admin-main { padding: 1.25rem; }
+    .clip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ─── GOOGLE DRIVE CONVERTER ───────────────────────────
+function extractGDriveId(input) {
+  if (!input) return null;
+  const patterns = [
+    /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,
+    /[?&]id=([a-zA-Z0-9_-]+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = input.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function convertGDriveLink(input) {
+  if (!input) return null;
+  if (input.includes('drive.google.com/uc?') || input.includes('export=download')) return input;
+  const fileId = extractGDriveId(input);
+  if (fileId) return `https://drive.google.com/uc?export=download&id=${fileId}`;
+  return null;
+}
+
+function getGDriveEmbedUrl(url) {
+  if (!url) return null;
+  const fileId = extractGDriveId(url);
+  if (fileId) return `https://drive.google.com/file/d/${fileId}/preview`;
+  return null;
+}
+
+function isGDriveLink(url) {
+  return url && url.includes('drive.google.com');
+}
+
+// ─── DEMO DATA ────────────────────────────────────────
+const DEMO_CLIPS = [];
+
+const HEROES = [
+  "All",
+  "Aamon","Akai","Aldous","Alice","Alpha","Alucard","Angela","Argus","Arlott",
+  "Atlas","Aurora","Aulus","Badang","Balmond","Bane","Barats","Baxia","Beatrix",
+  "Belerick","Benedetta","Brody","Bruno","Carmilla","Cecilion","Chang'e","Chip",
+  "Chou","Cici","Claude","Clint","Cyclops","Diggie","Dyrroth","Edith","Esmeralda",
+  "Estes","Eudora","Fanny","Faramis","Floryn","Franco","Fredrinn","Freya",
+  "Gatotkaca","Gloo","Gord","Granger","Grock","Guinevere","Gusion","Hanabi",
+  "Hanzo","Harith","Harley","Hayabusa","Helcurt","Hilda","Hylos","Irithel","Ixia",
+  "Jawhead","Johnson","Joy","Julian","Kadita","Kagura","Kaja","Kalea","Karina",
+  "Karrie","Khaleed","Khufra","Kimmy","Lancelot","Lapu-Lapu","Layla","Leomord",
+  "Lesley","Ling","Lolita","Lukas","Lunox","Luo Yi","Lylia","Marcel","Martis",
+  "Masha","Mathilda","Melissa","Minsitthar","Minotaur","Miya","Moskov","Nana",
+  "Natalia","Natan","Nolan","Novaria","Obsidia","Odette","Paquito","Pharsa",
+  "Phoveus","Popol and Kupa","Rafaela","Roger","Ruby","Saber","Selena","Silvanna",
+  "Sora","Sun","Suyou","Terizla","Thamuz","Tigreal","Uranus","Vale","Valentina",
+  "Valir","Vexana","Wanwan","X.Borg","Xavier","Yi Sun-shin","Yin","Yu Zhong",
+  "Yve","Zhask","Zhuxin","Zetian","Zilong"
+];
+
+const HERO_COLORS = {
+  Miya:"#60a5fa",Balmond:"#b91c1c",Saber:"#06b6d4",Alice:"#7e22ce",
+  Nana:"#f472b6",Tigreal:"#eab308",Alucard:"#dc2626",Karina:"#4338ca",
+  Akai:"#16a34a",Franco:"#1e3a8a",Bane:"#0f766e",Bruno:"#f97316",
+  Clint:"#92400e",Rafaela:"#fde68a",Eudora:"#2563eb",Zilong:"#2563eb",
+  Fanny:"#2563eb",Layla:"#3b82f6",Minotaur:"#991b1b",Lolita:"#ec4899",
+  Hayabusa:"#dc2626",Freya:"#facc15",Gord:"#38bdf8",Natalia:"#4b5563",
+  Kagura:"#9333ea",Chou:"#d97706",Sun:"#f59e0b",Alpha:"#6b7280",
+  Ruby:"#dc2626","Yi Sun-shin":"#4338ca",Moskov:"#7f1d1d",Johnson:"#2563eb",
+  Cyclops:"#7c3aed",Estes:"#22c55e",Hilda:"#84cc16",Aurora:"#38bdf8",
+  "Lapu-Lapu":"#92400e",Vexana:"#6d28d9",Roger:"#78716c",Karrie:"#0ea5e9",
+  Gatotkaca:"#ea580c",Harley:"#ec4899",Irithel:"#65a30d",Grock:"#57534e",
+  Argus:"#111827",Odette:"#f9a8d4",Lancelot:"#0891b2",Diggie:"#facc15",
+  Hylos:"#0f766e",Zhask:"#7c2d12",Helcurt:"#312e81",Pharsa:"#1d4ed8",
+  Lesley:"#be123c",Jawhead:"#f97316",Angela:"#fb7185",Gusion:"#db2777",
+  Valir:"#ef4444",Martis:"#991b1b",Uranus:"#0ea5e9",Hanabi:"#be185d",
+  "Chang'e":"#a855f7",Kaja:"#ca8a04",Selena:"#6d28d9",Aldous:"#1e293b",
+  Claude:"#0284c7",Vale:"#38bdf8",Leomord:"#374151",Lunox:"#facc15",
+  Hanzo:"#7f1d1d",Belerick:"#15803d",Kimmy:"#f97316",Thamuz:"#b91c1c",
+  Harith:"#ea580c",Minsitthar:"#a16207",Kadita:"#0891b2",Faramis:"#4c1d95",
+  Badang:"#f97316",Khufra:"#92400e",Granger:"#991b1b",Guinevere:"#ec4899",
+  Esmeralda:"#0f766e",Terizla:"#57534e","X.Borg":"#ea580c",Ling:"#7c3aed",
+  Dyrroth:"#7f1d1d",Lylia:"#c026d3",Baxia:"#15803d",Masha:"#dc2626",
+  Wanwan:"#16a34a",Silvanna:"#facc15",Cecilion:"#312e81",Carmilla:"#be123c",
+  Atlas:"#0f766e","Popol and Kupa":"#92400e","Yu Zhong":"#111827",
+  "Luo Yi":"#1d4ed8",Benedetta:"#65a30d",Khaleed:"#b45309",Barats:"#16a34a",
+  Brody:"#1e293b",Yve:"#6366f1",Mathilda:"#14b8a6",Paquito:"#dc2626",
+  Gloo:"#84cc16",Beatrix:"#c2410c",Phoveus:"#581c87",Natan:"#0ea5e9",
+  Aulus:"#d97706",Aamon:"#06b6d4",Valentina:"#14532d",Edith:"#6b7280",
+  Floryn:"#22c55e",Yin:"#f97316",Melissa:"#ec4899",Xavier:"#2563eb",
+  Julian:"#4f46e5",Fredrinn:"#57534e",Joy:"#eab308",Novaria:"#7c3aed",
+  Arlott:"#7f1d1d",Ixia:"#0ea5e9",Nolan:"#1d4ed8",Cici:"#fb7185",
+  Chip:"#14b8a6",Zhuxin:"#9333ea",Suyou:"#374151",Lukas:"#f59e0b",
+  Kalea:"#0891b2",Zetian:"#7c3aed",Obsidia:"#111827",Sora:"#38bdf8",
+  Marcel:"#a855f7",
+};
+
+// ─── ICONS ────────────────────────────────────────────
+const Icon = ({ d, size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <path d={d} />
+  </svg>
+);
+
+const SearchIcon = () => <Icon d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />;
+const DownloadIcon = () => <Icon d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />;
+const XIcon = () => <Icon d="M18 6L6 18M6 6l12 12" size={16} />;
+const FilmIcon = () => <Icon d="M15 10l4.553-2.277A1 1 0 0 1 21 8.68V15.32a1 1 0 0 1-1.447.897L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" size={32} />;
+const TrashIcon = () => <Icon d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" size={14} />;
+const EditIcon = () => <Icon d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" size={14} />;
+const CheckIcon = () => <Icon d="M20 6L9 17l-5-5" size={14} />;
+const LinkIcon = () => <Icon d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" size={14} />;
+
+// ─── STORAGE ─────────────────────────────────────────
+const getClips = () => {
+  try {
+    const stored = localStorage.getItem('mlbb_clips_v2');
+    return stored ? JSON.parse(stored) : DEMO_CLIPS;
+  } catch { return DEMO_CLIPS; }
+};
+
+const saveClips = (clips) => {
+  try { localStorage.setItem('mlbb_clips_v2', JSON.stringify(clips)); } catch {}
+};
+
+// ─── TOAST ───────────────────────────────────────────
+function Toast({ message, onDone }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, 2500);
+    return () => clearTimeout(t);
+  }, []);
+  return <div className="toast"><CheckIcon /> {message}</div>;
+}
+
+// ─── GDRIVE CONVERTER COMPONENT ──────────────────────
+function GDriveConverter({ onConverted }) {
+  const [input, setInput] = useState('');
+  const [fileId, setFileId] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const handleConvert = (val) => {
+    setInput(val);
+    if (!val) { setFileId(''); onConverted(''); return; }
+
+    const id = extractGDriveId(val);
+    if (id) {
+      setFileId(id);
+      // Store the download URL — embed URL derived at display time
+      onConverted(`https://drive.google.com/uc?export=download&id=${id}`);
+    } else if (val.startsWith('http')) {
+      setFileId('');
+      onConverted(val);
+    } else {
+      setFileId('');
+    }
+  };
+
+  const embedUrl = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : '';
+  const downloadUrl = fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : '';
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(downloadUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  return (
+    <div className="gdrive-box">
+      <div className="gdrive-box-title">
+        <span className="gdrive-icon">🔗</span>
+        Google Drive Link Converter
+      </div>
+      <div className="form-group">
+        <label className="form-label">Paste your Google Drive share link</label>
+        <input
+          type="text"
+          className="form-input"
+          placeholder="https://drive.google.com/file/d/..."
+          value={input}
+          onChange={e => handleConvert(e.target.value)}
+        />
+      </div>
+      {fileId && (
+        <div style={{marginTop:10, display:'flex', flexDirection:'column', gap:6}}>
+          <div className="gdrive-converted">
+            <span>✓ Embed (preview): {embedUrl.slice(0,55)}...</span>
+          </div>
+          <div className="gdrive-converted">
+            <span>✓ Download: {downloadUrl.slice(0,55)}...</span>
+            <button className="gdrive-copy-btn" onClick={handleCopy}>
+              {copied ? '✓ Copied' : 'Copy'}
+            </button>
+          </div>
+          <div style={{fontSize:'0.72rem', color:'var(--text-muted)', marginTop:2}}>
+            ✅ File ID detected: <code style={{color:'var(--blue-light)'}}>{fileId}</code> — preview + download ready
+          </div>
+        </div>
+      )}
+      {!fileId && input && !input.includes('drive.google.com') && (
+        <div style={{marginTop:8, fontSize:'0.75rem', color:'var(--text-muted)'}}>
+          ℹ️ Not a Google Drive link — will be used as-is
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── VIDEO MODAL ─────────────────────────────────────
+function VideoModal({ clip, onClose }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
+  const isDemo = !clip.url || clip.fileType === 'demo';
+
+  return (
+    <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal-content">
+        <div className="modal-header">
+          <div>
+            <div style={{fontSize:'0.7rem', color:'var(--gold)', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:3}}>
+              {clip.hero}
+            </div>
+            <div className="modal-title">{clip.title}</div>
+          </div>
+          <button className="modal-close" onClick={onClose}><XIcon /></button>
+        </div>
+
+        <div className="modal-video">
+          {!isDemo ? (
+            isGDriveLink(clip.url) ? (
+              <iframe
+                src={getGDriveEmbedUrl(clip.url)}
+                style={{width:'100%', height:'100%', border:'none'}}
+                allow="autoplay"
+                allowFullScreen
+              />
+            ) : (
+              <video ref={videoRef} controls autoPlay style={{width:'100%',height:'100%',objectFit:'contain'}}>
+                <source src={clip.url} />
+                Your browser does not support this video format.
+              </video>
+            )
+          ) : (
+            <>
+              <FilmIcon />
+              <div style={{textAlign:'center'}}>
+                <div style={{color:'var(--text-secondary)', fontSize:'0.9rem'}}>No video file attached</div>
+                <div style={{color:'var(--text-muted)', fontSize:'0.78rem', marginTop:4}}>Add a Google Drive link in the Admin Panel</div>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="modal-footer">
+          <div className="modal-info">
+            {clip.tags?.map(t => <span key={t} className="clip-tag">{t}</span>)}
+            {clip.duration && <span style={{fontSize:'0.78rem', color:'var(--text-muted)'}}>⏱ {clip.duration}</span>}
+          </div>
+          {!isDemo ? (
+            <a href={clip.url} download={clip.title} className="dl-btn" target="_blank" rel="noreferrer">
+              <DownloadIcon /> Download
+            </a>
+          ) : (
+            <span className="dl-btn" style={{opacity:0.4, cursor:'default'}}>
+              <DownloadIcon /> No File
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CLIP CARD ───────────────────────────────────────
+function ClipCard({ clip, onPlay, onDownload }) {
+  const heroColor = HERO_COLORS[clip.hero] || '#2563eb';
+  const isDemo = !clip.url || clip.fileType === 'demo';
+  const hasThumb = !!clip.thumb;
+
+  return (
+    <div className="clip-card" onClick={() => onPlay(clip)}>
+      <div className="clip-thumb">
+        {hasThumb ? (
+          <img
+            src={clip.thumb}
+            alt={clip.title}
+            style={{width:'100%',height:'100%',objectFit:'cover'}}
+            onError={e => {
+              e.target.style.display='none';
+              e.target.nextSibling.style.display='flex';
+            }}
+          />
+        ) : null}
+        {(!hasThumb) && (
+          <div className="clip-thumb-placeholder" style={{background:`linear-gradient(135deg, ${heroColor}22, var(--navy-5))`}}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={heroColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{opacity:0.6}}>
+              <path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.68V15.32a1 1 0 0 1-1.447.897L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/>
+            </svg>
+            <span style={{fontSize:'0.72rem', color:heroColor, opacity:0.7, fontWeight:600, letterSpacing:'0.08em'}}>{clip.hero}</span>
+          </div>
+        )}
+        {hasThumb && (
+          <div className="clip-thumb-placeholder" style={{display:'none', background:`linear-gradient(135deg, ${heroColor}22, var(--navy-5))`}}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={heroColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{opacity:0.6}}>
+              <path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.68V15.32a1 1 0 0 1-1.447.897L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/>
+            </svg>
+            <span style={{fontSize:'0.72rem', color:heroColor, opacity:0.7, fontWeight:600, letterSpacing:'0.08em'}}>{clip.hero}</span>
+          </div>
+        )}
+        <span className="clip-badge">{clip.hero}</span>
+        {clip.duration && <span className="clip-duration">{clip.duration}</span>}
+        <div className="play-overlay">
+          <div className="play-btn-circle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M5 3l14 9-14 9V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div className="clip-info">
+        <div className="clip-hero-tag" style={{color: heroColor}}>{clip.hero}</div>
+        <div className="clip-title">{clip.title}</div>
+        <div className="clip-meta">
+          <div className="clip-tags">
+            {clip.tags?.slice(0,2).map(t => <span key={t} className="clip-tag">{t}</span>)}
+          </div>
+          <button className="dl-btn" onClick={e => { e.stopPropagation(); onDownload(clip); }}>
+            <DownloadIcon /> DL
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── PUBLIC GALLERY ───────────────────────────────────
+function Gallery({ clips, onAdminClick }) {
+  const [search, setSearch] = useState('');
+  const [hero, setHero] = useState('All');
+  const [selectedClip, setSelectedClip] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const filtered = clips.filter(c => {
+    const matchHero = hero === 'All' || c.hero === hero;
+    const q = search.toLowerCase();
+    const matchSearch = !q || c.title.toLowerCase().includes(q) || c.hero.toLowerCase().includes(q) || c.tags?.some(t => t.toLowerCase().includes(q));
+    return matchHero && matchSearch;
+  });
+
+  const heroesUsed = ['All', ...Array.from(new Set(clips.map(c => c.hero)))];
+
+  const handleDownload = (clip) => {
+    if (clip.url && clip.fileType !== 'demo') {
+      window.open(clip.url, '_blank');
+      setToast('Opening download link...');
+    } else {
+      setToast('No file attached — add a Google Drive link via Admin Panel');
+    }
+  };
+
+  return (
+    <>
+      <nav className="nav">
+        <div className="nav-logo">WADE<span className="accent">MLBB</span>Clips</div>
+        <div className="nav-right">
+          <button className="nav-btn admin" onClick={onAdminClick}>Admin</button>
+        </div>
+      </nav>
+
+      <section className="hero">
+        <div className="hero-label">Mobile Legends Bang Bang</div>
+        <h1>MLBB <em>Clips</em><br/>for Editors</h1>
+        <p>Browse, preview & download high-quality MLBB gameplay clips organized by hero. Built for GMV Editors.</p>
+        <div className="stats-bar">
+          <div className="stat-item">
+            <div className="stat-num">{clips.length}<span>+</span></div>
+            <div className="stat-label">Clips</div>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <div className="stat-num">{Array.from(new Set(clips.map(c=>c.hero))).length}</div>
+            <div className="stat-label">Heroes</div>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item"><div className="stat-num">1080p</div><div className="stat-label">Quality</div></div>
+          <div className="stat-divider" />
+          <div className="stat-item"><div className="stat-num">60</div><div className="stat-label">FPS</div></div>
+        </div>
+      </section>
+
+      <div className="search-section">
+        <div className="search-wrap">
+          <SearchIcon />
+          <input className="search-input" placeholder="Search clips, heroes, tags..." value={search} onChange={e => setSearch(e.target.value)} />
+        </div>
+      </div>
+
+      <div className="hero-chips">
+        {heroesUsed.map(h => (
+          <button key={h} className={`hero-chip ${hero === h ? 'active' : ''}`} onClick={() => setHero(h)}>{h}</button>
+        ))}
+      </div>
+
+      <div className="clip-grid-wrap">
+        <div className="section-header">
+          <div className="section-title">{hero === 'All' ? 'All Clips' : `${hero} Clips`}</div>
+          <span className="section-count">{filtered.length} clips</span>
+        </div>
+        <div className="clip-grid">
+          {filtered.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">🎬</div>
+              <h3>{clips.length === 0 ? 'No clips yet' : 'No clips found'}</h3>
+              <p>{clips.length === 0 ? 'Add clips via the Admin Panel' : 'Try a different search or hero filter'}</p>
+            </div>
+          ) : filtered.map(c => (
+            <ClipCard key={c.id} clip={c} onPlay={setSelectedClip} onDownload={handleDownload} />
+          ))}
+        </div>
+      </div>
+
+      {selectedClip && <VideoModal clip={selectedClip} onClose={() => setSelectedClip(null)} />}
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+    </>
+  );
+}
+
+// ─── LOGIN ────────────────────────────────────────────
+function Login({ onLogin }) {
+  const [pass, setPass] = useState('');
+
+  const handle = (e) => {
+    e.preventDefault();
+    if (pass === 'admin123') {
+      Swal.fire({ icon:'success', title:'Welcome Admin', text:'Access granted.', timer:1500, showConfirmButton:false, background:'#0f1a30', color:'#e8eaf6' });
+      setTimeout(() => onLogin(), 1200);
+    } else {
+      Swal.fire({ icon:'error', title:'Access Denied', text:'Incorrect password.', background:'#0f1a30', color:'#e8eaf6', confirmButtonColor:'#2563eb' });
+    }
+  };
+
+  return (
+    <>
+      <nav className="nav">
+        <div className="nav-logo">WADE <span className="accent">MLBB</span>Clips</div>
+      </nav>
+      <div className="login-wrap">
+        <div className="login-card">
+          <div className="login-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4" /><path d="M20 21a8 8 0 0 0-16 0" />
+            </svg>
+          </div>
+          <h2>Admin Access</h2>
+          <p>Enter your password to manage the clip library</p>
+          <form onSubmit={handle} style={{display:'flex',flexDirection:'column',gap:12}}>
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input type="password" className="form-input" placeholder="Enter admin password" value={pass} onChange={e => setPass(e.target.value)} autoFocus />
+            </div>
+            <button type="submit" className="btn-primary" style={{marginTop:4}}>Unlock Dashboard</button>
+          </form>
+          <p style={{fontSize:'0.75rem', color:'var(--text-muted)', marginTop:'1rem', textAlign:'center'}}>
+            Demo password: <code style={{color:'var(--blue-light)'}}>admin123</code>
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── ADMIN DASHBOARD ─────────────────────────────────
+function Admin({ clips, setClips, onBack, onLogout }) {
+  const [page, setPage] = useState('dashboard');
+  const [editId, setEditId] = useState(null);
+  const [form, setForm] = useState({ title:'', hero:'', tags:'', url:'', thumb:'', duration:'', fileType:'url' });
+  const [dragging, setDragging] = useState(false);
+  const fileRef = useRef(null);
+
+  const heroesWithClips = Array.from(new Set(clips.map(c => c.hero)));
+
+  const showSwal = (opts) => Swal.fire({ background:'#0f1a30', color:'#e8eaf6', confirmButtonColor:'#2563eb', ...opts });
+
+  const showToast = (msg) => Swal.fire({
+    toast:true, position:'top-end', icon:'success', title:msg,
+    showConfirmButton:false, timer:2200, timerProgressBar:true,
+    background:'#0f1a30', color:'#e8eaf6', iconColor:'#60a5fa',
+  });
+
+  const handleFile = (f) => {
+    if (!f) return;
+    const url = URL.createObjectURL(f);
+    setForm(prev => ({ ...prev, url, fileType:'local' }));
+    showSwal({ icon:'warning', title:'Heads up!', html:`<div style="font-size:0.88rem;color:#8ba3c7">Local file uploads <b style="color:#fca5a5">disappear on refresh</b>.<br/><br/>Use a <b style="color:#60a5fa">Google Drive link</b> above for permanent storage.</div>`, confirmButtonText:'Got it' });
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault(); setDragging(false);
+    const f = e.dataTransfer.files[0];
+    if (f && f.type.startsWith('video/')) handleFile(f);
+  };
+
+  const handleGDriveConverted = (url) => {
+    setForm(prev => ({ ...prev, url, fileType:'url' }));
+  };
+
+  const handleSubmit = () => {
+    if (!form.title || !form.hero) { showSwal({ icon:'warning', title:'Missing fields', text:'Title and Hero are required!' }); return; }
+    const tags = form.tags.split(',').map(t => t.trim()).filter(Boolean);
+    if (editId !== null) {
+      const updated = clips.map(c => c.id === editId ? { ...c, ...form, tags } : c);
+      setClips(updated); saveClips(updated);
+      setEditId(null); showToast('Clip updated!');
+    } else {
+      const newClip = { id: Date.now(), ...form, tags, date: new Date().toISOString().slice(0,10) };
+      const updated = [newClip, ...clips];
+      setClips(updated); saveClips(updated);
+      showSwal({ icon:'success', title:'Clip Added!', text:'Your MLBB clip is now live in the gallery.' });
+    }
+    setForm({ title:'', hero:'', tags:'', url:'', thumb:'', duration:'', fileType:'url' });
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title:'Delete Clip?', text:"This can't be undone.", icon:'warning',
+      showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#2563eb',
+      confirmButtonText:'Delete', background:'#0f1a30', color:'#e8eaf6'
+    }).then(r => {
+      if (r.isConfirmed) {
+        const updated = clips.filter(c => c.id !== id);
+        setClips(updated); saveClips(updated); showToast('Clip deleted.');
+      }
+    });
+  };
+
+  const handleEdit = (clip) => {
+    setForm({ title:clip.title, hero:clip.hero, tags:clip.tags?.join(', ')||'', url:clip.url||'', thumb:clip.thumb||'', duration:clip.duration||'', fileType:clip.fileType||'url' });
+    setEditId(clip.id); setPage('upload');
+  };
+
+  const navItems = [
+    { id:'dashboard', label:'Dashboard', icon:'📈' },
+    { id:'upload', label:'Upload Clip', icon:'☁️' },
+    { id:'clips', label:'Manage Clips', icon:'🎞️' },
+  ];
+
+  return (
+    <>
+      <nav className="nav">
+        <div className="nav-logo" onClick={onBack} style={{cursor:'pointer'}}>
+          WADE <span className="accent">MLBB</span>Clips
+          <span style={{fontSize:'0.7rem', color:'var(--blue-light)', marginLeft:8, fontWeight:400, letterSpacing:'0.08em'}}>Admin</span>
+        </div>
+        <div className="nav-right">
+          <button className="nav-btn" onClick={() => {
+            Swal.fire({ title:'Go to Gallery?', icon:'question', showCancelButton:true, confirmButtonColor:'#2563eb', cancelButtonColor:'#64748b', confirmButtonText:'Yes', background:'#0f1a30', color:'#e8eaf6' })
+            .then(r => { if (r.isConfirmed) onBack(); });
+          }}>Gallery</button>
+          <button className="nav-btn" onClick={() => {
+            Swal.fire({ title:'Logout?', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#2563eb', confirmButtonText:'Logout', background:'#0f1a30', color:'#e8eaf6' })
+            .then(r => { if (r.isConfirmed) { showToast('Logged out'); setTimeout(onLogout, 1000); } });
+          }}>Logout</button>
+        </div>
+      </nav>
+
+      <div className="admin-layout">
+        <aside className="admin-sidebar">
+          <div className="admin-sidebar-title">Navigation</div>
+          {navItems.map(item => (
+            <div key={item.id} className={`admin-nav-item ${page === item.id ? 'active' : ''}`} onClick={() => setPage(item.id)}>
+              <span>{item.icon}</span> {item.label}
+            </div>
+          ))}
+          <div style={{borderTop:'1px solid var(--border)', margin:'1rem 0'}} />
+          <div className="admin-sidebar-title">Library</div>
+          <div className="admin-nav-item" onClick={() => setPage('clips')}>
+            <span>🎬</span> All Clips ({clips.length})
+          </div>
+          {heroesWithClips.slice(0,6).map(h => (
+            <div key={h} className="admin-nav-item" style={{fontSize:'0.82rem', paddingLeft:'2rem'}}>
+              {h} ({clips.filter(c=>c.hero===h).length})
+            </div>
+          ))}
+        </aside>
+
+        <main className="admin-main">
+
+          {/* DASHBOARD */}
+          {page === 'dashboard' && (
+            <>
+              <div className="admin-page-title">Dashboard</div>
+              <div className="admin-page-sub">Overview of your MLBB Clips library</div>
+              <div className="admin-metrics">
+                <div className="metric-card"><div className="metric-label">Total Clips</div><div className="metric-num">{clips.length}<span>+</span></div></div>
+                <div className="metric-card"><div className="metric-label">Heroes</div><div className="metric-num">{Array.from(new Set(clips.map(c=>c.hero))).length}</div></div>
+                <div className="metric-card"><div className="metric-label">With Video</div><div className="metric-num">{clips.filter(c => c.url && c.fileType !== 'demo').length}</div></div>
+              </div>
+
+              {/* GDrive helper */}
+              <div className="form-card">
+                <h3>📎 How to add permanent clips</h3>
+                <div style={{display:'flex', flexDirection:'column', gap:10, fontSize:'0.85rem', color:'var(--text-secondary)'}}>
+                  <div style={{display:'flex', alignItems:'flex-start', gap:10}}>
+                    <span style={{color:'var(--blue-bright)', fontWeight:700, minWidth:20}}>1.</span>
+                    <span>Upload your MLBB clip to <strong style={{color:'var(--text-primary)'}}>Google Drive</strong></span>
+                  </div>
+                  <div style={{display:'flex', alignItems:'flex-start', gap:10}}>
+                    <span style={{color:'var(--blue-bright)', fontWeight:700, minWidth:20}}>2.</span>
+                    <span>Right-click the file → <strong style={{color:'var(--text-primary)'}}>Share</strong> → set to <strong style={{color:'var(--text-primary)'}}>"Anyone with the link"</strong> → Copy link</span>
+                  </div>
+                  <div style={{display:'flex', alignItems:'flex-start', gap:10}}>
+                    <span style={{color:'var(--blue-bright)', fontWeight:700, minWidth:20}}>3.</span>
+                    <span>Go to <strong style={{color:'var(--text-primary)'}}>Upload Clip</strong> → paste the link in the converter → fill details → Add Clip</span>
+                  </div>
+                  <div style={{display:'flex', alignItems:'flex-start', gap:10}}>
+                    <span style={{color:'var(--green)', fontWeight:700, minWidth:20}}>✓</span>
+                    <span style={{color:'var(--green)'}}>Clips will <strong>never disappear</strong> on refresh since the Google Drive URL is saved</span>
+                  </div>
+                </div>
+              </div>
+
+              {clips.length > 0 && (
+                <div className="form-card">
+                  <h3>Recent Clips</h3>
+                  <div style={{display:'flex', flexDirection:'column', gap:8}}>
+                    {clips.slice(0,5).map(c => (
+                      <div key={c.id} style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'8px 0', borderBottom:'1px solid var(--border)'}}>
+                        <div>
+                          <div style={{fontSize:'0.88rem', fontWeight:500, color:'var(--text-primary)'}}>{c.title}</div>
+                          <div style={{fontSize:'0.74rem', color:'var(--text-muted)'}}>{c.hero} · {c.date}</div>
+                        </div>
+                        <span className="table-badge">{c.fileType === 'demo' ? 'Demo' : c.url?.includes('drive.google') ? '🔗 GDrive' : '✓ Live'}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* UPLOAD */}
+          {page === 'upload' && (
+            <>
+              <div className="admin-page-title">{editId ? 'Edit Clip' : 'Upload New Clip'}</div>
+              <div className="admin-page-sub">{editId ? 'Modify clip details' : 'Add a new clip to the library'}</div>
+
+              {!editId && (
+                <div className="form-card">
+                  <h3>Video Source</h3>
+
+                  {/* GDrive Converter */}
+                  <GDriveConverter onConverted={handleGDriveConverted} />
+
+                  <div className="divider-text">— or drag & drop a local file (temporary) —</div>
+
+                  <div
+                    className={`file-drop ${dragging ? 'dragover' : ''}`}
+                    onClick={() => fileRef.current?.click()}
+                    onDragOver={e => { e.preventDefault(); setDragging(true); }}
+                    onDragLeave={() => setDragging(false)}
+                    onDrop={handleDrop}
+                  >
+                    <div className="file-drop-icon">🎬</div>
+                    <p>{form.fileType === 'local' ? '✓ Local file selected (temporary — use GDrive for permanent)' : 'Drop video file here or click to browse'}</p>
+                    <small>MP4, MOV, WebM — disappears on refresh, use GDrive instead</small>
+                  </div>
+                  <input ref={fileRef} type="file" accept="video/*" style={{display:'none'}} onChange={e => handleFile(e.target.files[0])} />
+
+                  {form.url && (
+                    <div style={{marginTop:10, padding:'8px 12px', background:'rgba(34,197,94,0.08)', border:'1px solid rgba(34,197,94,0.2)', borderRadius:6, fontSize:'0.78rem', color:'#86efac'}}>
+                      ✓ URL set: {form.url.slice(0,60)}{form.url.length > 60 ? '...' : ''}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="form-card">
+                <h3>Clip Details</h3>
+                <div className="form-row">
+                  <div className="form-group" style={{gridColumn:'1/-1'}}>
+                    <label className="form-label">Skin Used *</label>
+                    <input type="text" className="form-input" placeholder="e.g. Street Punk" value={form.title} onChange={e => setForm(p => ({...p, title:e.target.value}))} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Hero *</label>
+                    <select className="form-select" value={form.hero} onChange={e => setForm(p => ({...p, hero:e.target.value}))}>
+                      <option value="">Select Hero</option>
+                      {HEROES.filter(h => h !== 'All').map(h => <option key={h} value={h}>{h}</option>)}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Duration</label>
+                    <input type="text" className="form-input" placeholder="e.g. 0:15" value={form.duration} onChange={e => setForm(p => ({...p, duration:e.target.value}))} />
+                  </div>
+                  <div className="form-group" style={{gridColumn:'1/-1'}}>
+                    <label className="form-label">Thumbnail Image URL</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="https://drive.google.com/file/d/... or any image link"
+                      value={form.thumb}
+                      onChange={e => {
+                        let val = e.target.value;
+                        // Auto-convert GDrive thumb link to direct image URL
+                        const thumbId = extractGDriveId(val);
+                        if (thumbId) val = `https://lh3.googleusercontent.com/d/${thumbId}`;
+                        setForm(p => ({...p, thumb: val}));
+                      }}
+                    />
+                    {form.thumb && (
+                      <div style={{marginTop:8, borderRadius:6, overflow:'hidden', border:'1px solid var(--border)', height:120, display:'flex', alignItems:'center', justifyContent:'center', background:'var(--navy-3)'}}>
+                        <img src={form.thumb} alt="thumb preview" style={{height:'100%', width:'100%', objectFit:'cover'}} onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+                        <div style={{display:'none', alignItems:'center', justifyContent:'center', width:'100%', height:'100%', fontSize:'0.78rem', color:'var(--text-muted)', flexDirection:'column', gap:6}}>
+                          <span>⚠️ Image failed to load</span>
+                          <span style={{fontSize:'0.7rem'}}>Try a different image host (Imgur, Discord, etc.)</span>
+                        </div>
+                      </div>
+                    )}
+                    <span style={{fontSize:'0.72rem', color:'var(--text-muted)'}}>💡 Paste a Google Drive image link — auto-converts. Or use Imgur / Discord image links for best results.</span>
+                  </div>
+                  <div className="form-group" style={{gridColumn:'1/-1'}}>
+                    <label className="form-label">IGN</label>
+                    <input type="text" className="form-input" value={form.tags} onChange={e => setForm(p => ({...p, tags:e.target.value}))} />
+                  </div>
+                </div>
+                <div style={{display:'flex', gap:10, marginTop:4}}>
+                  <button className="btn-primary" onClick={handleSubmit}>{editId ? '✓ Save Changes' : '+ Add Clip'}</button>
+                  {editId && <button className="nav-btn" onClick={() => { setEditId(null); setForm({title:'',hero:'',tags:'',url:'',thumb:'',duration:'',fileType:'url'}); }}>Cancel</button>}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* MANAGE CLIPS */}
+          {page === 'clips' && (
+            <>
+              <div className="admin-page-title">Manage Clips</div>
+              <div className="admin-page-sub">{clips.length} clips in library</div>
+              {clips.length === 0 ? (
+                <div style={{textAlign:'center', padding:'4rem 2rem', color:'var(--text-muted)'}}>
+                  <div style={{fontSize:'2rem', marginBottom:'1rem'}}>🎬</div>
+                  <div>No clips yet. Add one via Upload Clip.</div>
+                </div>
+              ) : (
+                <div className="admin-table-wrap">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Skin</th><th>Hero</th><th>IGN</th><th>Duration</th><th>Source</th><th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {clips.map(c => (
+                        <tr key={c.id}>
+                          <td className="table-title">{c.title}</td>
+                          <td><span className="table-badge">{c.hero}</span></td>
+                          <td><div style={{display:'flex',gap:4,flexWrap:'wrap'}}>{c.tags?.slice(0,2).map(t=><span key={t} className="clip-tag">{t}</span>)}</div></td>
+                          <td>{c.duration||'—'}</td>
+                          <td>
+                            <span style={{
+                              fontSize:'0.7rem', padding:'2px 7px', borderRadius:3,
+                              background: c.url?.includes('drive.google') ? 'rgba(34,197,94,0.1)' : c.fileType==='demo' ? 'rgba(239,68,68,0.1)' : 'rgba(96,165,250,0.1)',
+                              border: `1px solid ${c.url?.includes('drive.google') ? 'rgba(34,197,94,0.25)' : c.fileType==='demo' ? 'rgba(239,68,68,0.25)' : 'rgba(96,165,250,0.25)'}`,
+                              color: c.url?.includes('drive.google') ? '#86efac' : c.fileType==='demo' ? '#fca5a5' : '#93c5fd',
+                            }}>
+                              {c.url?.includes('drive.google') ? '🔗 GDrive' : c.fileType==='demo' ? 'No File' : '📁 Local'}
+                            </span>
+                          </td>
+                          <td>
+                            <div className="table-actions">
+                              <button className="dl-btn" style={{padding:'4px 10px'}} onClick={() => handleEdit(c)}><EditIcon /> Edit</button>
+                              <button className="btn-danger" onClick={() => handleDelete(c.id)}><TrashIcon /> Del</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </>
+          )}
+        </main>
+      </div>
+    </>
+  );
+}
+
+// ─── APP ROOT ─────────────────────────────────────────
+function App() {
+  const [view, setView] = useState('gallery');
+  const [clips, setClips] = useState(getClips);
+  const [authed, setAuthed] = useState(false);
+
+  const handleAdminClick = () => {
+    if (authed) setView('admin');
+    else setView('login');
+  };
+
+  return (
+    <div>
+      {view === 'gallery' && <Gallery clips={clips} onAdminClick={handleAdminClick} />}
+      {view === 'login' && <Login onLogin={() => { setAuthed(true); setView('admin'); }} />}
+      {view === 'admin' && <Admin clips={clips} setClips={setClips} onBack={() => setView('gallery')} onLogout={() => { setAuthed(false); setView('gallery'); }} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
