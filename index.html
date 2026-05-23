@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WADE MLBB Clips</title>
+<title>Wade Clips</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -222,6 +222,15 @@
   .clip-tag {
     font-size: 0.68rem; padding: 2px 7px; border-radius: 3px;
     background: rgba(30,144,255,0.08); border: 1px solid rgba(30,144,255,0.15); color: var(--text-secondary);
+  }
+
+  /* IGN display */
+  .clip-ign { display: flex; align-items: center; min-width: 0; flex: 1; overflow: hidden; }
+  .clip-ign-name {
+    font-size: 0.75rem; font-weight: 500; color: var(--text-secondary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    border: 1px solid var(--border-hover); border-radius: 5px;
+    padding: 4px 12px; background: transparent;
   }
 
   .dl-btn {
@@ -885,9 +894,11 @@ function VideoModal({ clip, onClose }) {
 
         <div className="modal-footer">
           <div className="modal-info">
-            {clip.tags?.split(',').filter(Boolean).map(t => (
-              <span key={t} className="clip-tag">{t.trim()}</span>
-            ))}
+            {clip.ign && clip.ign.trim() ? (
+              <span className="clip-ign-name">
+                {clip.ign.split(',').filter(Boolean).map(t=>t.trim()).join(', ')}
+              </span>
+            ) : null}
             {clip.duration && <span style={{fontSize:'0.78rem', color:'var(--text-muted)'}}>⏱ {clip.duration}</span>}
           </div>
           {!isDemo ? (
@@ -909,7 +920,7 @@ function VideoModal({ clip, onClose }) {
 function ClipCard({ clip, onPlay, onDownload }) {
   const heroColor = HERO_COLORS[clip.hero] || '#2563eb';
   const hasThumb = !!clip.thumb;
-  const tagList = clip.tags ? clip.tags.split(',').filter(Boolean) : [];
+  const tagList = clip.ign ? clip.ign.split(',').filter(Boolean) : [];
 
   return (
     <div className="clip-card" onClick={() => onPlay(clip)}>
@@ -941,8 +952,10 @@ function ClipCard({ clip, onPlay, onDownload }) {
         <div className="clip-hero-tag" style={{color: heroColor}}>{clip.hero}</div>
         <div className="clip-title">{clip.title}</div>
         <div className="clip-meta">
-          <div className="clip-tags">
-            {tagList.slice(0,2).map(t => <span key={t} className="clip-tag">{t.trim()}</span>)}
+          <div className="clip-ign">
+            <span className="clip-ign-name">
+              {tagList.length > 0 ? tagList[0].trim() : <span style={{color:'var(--text-muted)'}}>—</span>}
+            </span>
           </div>
           <button className="dl-btn" onClick={e => { e.stopPropagation(); onDownload(clip); }}>
             <DownloadIcon /> <span className="dl-label">DL</span>
@@ -981,7 +994,7 @@ function Gallery({ onAdminClick }) {
   const filtered = clips.filter(c => {
     const matchHero = hero === 'All' || c.hero === hero;
     const q = search.toLowerCase();
-    const matchSearch = !q || c.title.toLowerCase().includes(q) || c.hero.toLowerCase().includes(q) || (c.tags && c.tags.toLowerCase().includes(q));
+    const matchSearch = !q || c.title.toLowerCase().includes(q) || c.hero.toLowerCase().includes(q) || (c.ign && c.ign.toLowerCase().includes(q));
     return matchHero && matchSearch;
   });
 
@@ -1120,7 +1133,7 @@ function Admin({ onBack, onLogout }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [form, setForm] = useState({ title:'', hero:'', tags:'', url:'', thumb:'', duration:'' });
+  const [form, setForm] = useState({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'' });
   const [dragging, setDragging] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fileRef = useRef(null);
@@ -1159,7 +1172,7 @@ function Admin({ onBack, onLogout }) {
   };
 
   const resetForm = () => {
-    setForm({ title:'', hero:'', tags:'', url:'', thumb:'', duration:'' });
+    setForm({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'' });
     setEditId(null);
   };
 
@@ -1172,7 +1185,7 @@ function Admin({ onBack, onLogout }) {
     const payload = {
       title: form.title,
       hero: form.hero,
-      tags: form.tags,
+      ign: form.ign,
       url: form.url,
       thumb: form.thumb,
       duration: form.duration,
@@ -1209,7 +1222,7 @@ function Admin({ onBack, onLogout }) {
     setForm({
       title: clip.title || '',
       hero: clip.hero || '',
-      tags: clip.tags || '',
+      ign: clip.ign || '',
       url: clip.url || '',
       thumb: clip.thumb || '',
       duration: clip.duration || '',
@@ -1387,8 +1400,8 @@ function Admin({ onBack, onLogout }) {
                     )}
                   </div>
                   <div className="form-group" style={{gridColumn:'1/-1'}}>
-                    <label className="form-label">IGN (comma separated)</label>
-                    <input type="text" className="form-input" placeholder="Player name(s), comma separated" value={form.tags} onChange={e => setForm(p => ({...p, tags:e.target.value}))} />
+                    <label className="form-label">IGN</label>
+                    <input type="text" className="form-input" placeholder="Player name(s)" value={form.ign} onChange={e => setForm(p => ({...p, ign:e.target.value}))} />
                   </div>
                 </div>
                 <div style={{display:'flex', gap:10, marginTop:4, flexWrap:'wrap'}}>
@@ -1429,7 +1442,7 @@ function Admin({ onBack, onLogout }) {
                         <tr key={c.id}>
                           <td className="table-title">{c.title}</td>
                           <td><span className="table-badge">{c.hero}</span></td>
-                          <td><span style={{fontSize:'0.8rem', color:'var(--text-secondary)'}}>{c.tags || '—'}</span></td>
+                          <td><span style={{fontSize:'0.8rem', color:'var(--text-secondary)'}}>{c.ign || '—'}</span></td>
                           <td>{c.duration || '—'}</td>
                           <td>
                             <span style={{
