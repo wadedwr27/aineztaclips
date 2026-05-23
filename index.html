@@ -91,6 +91,7 @@
     text-transform: uppercase; padding: 6px 16px; border-radius: 4px;
     border: 1px solid var(--border-hover); background: transparent;
     color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
   }
 
   .nav-btn:hover { background: var(--blue-muted); color: var(--text-primary); border-color: var(--blue-bright); }
@@ -469,6 +470,7 @@
     background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); color: #fca5a5;
   }
 
+  /* ── EXISTING TABLET/MOBILE (768px) ── */
   @media (max-width: 768px) {
     .hero { padding: 2.5rem 1.25rem 2rem; }
     .search-section { padding: 0 1.25rem; }
@@ -478,6 +480,178 @@
     .admin-sidebar { display: none; }
     .admin-main { padding: 1.25rem; }
     .clip-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── MOBILE PHONE IMPROVEMENTS (480px and below) ── */
+  @media (max-width: 480px) {
+
+    /* Nav — tighter, prevent overflow */
+    .nav {
+      padding: 0 1rem;
+      height: 56px;
+    }
+    .nav-logo {
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+    }
+    .nav-right { gap: 0.5rem; }
+    .db-badge { display: none; } /* hide on tiny screens to save space */
+    .nav-btn {
+      font-size: 0.72rem;
+      padding: 5px 10px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Hero section */
+    .hero {
+      padding: 1.75rem 1rem 1.5rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .hero p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .stats-bar {
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .stat-num { font-size: 1.5rem; }
+    .stat-label { font-size: 0.65rem; }
+
+    /* Search */
+    .search-section {
+      padding: 0 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .search-input {
+      font-size: 0.88rem;
+      padding: 11px 14px 11px 40px; /* slightly taller tap target */
+    }
+
+    /* Hero chips — horizontal scroll instead of wrap */
+    .hero-chips {
+      padding: 0 1rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 6px;
+      margin-bottom: 1.25rem;
+      padding-bottom: 4px;
+    }
+    .hero-chips::-webkit-scrollbar { display: none; }
+    .hero-chip {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      /* Slightly taller for touch */
+    }
+
+    /* Clip grid — 2-col on phones */
+    .clip-grid-wrap { padding: 0 1rem 3rem; }
+    .clip-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    /* Card info — tighter */
+    .clip-info { padding: 10px 10px; }
+    .clip-title { font-size: 0.85rem; margin-bottom: 8px; }
+    .clip-hero-tag { font-size: 0.6rem; margin-bottom: 3px; }
+    .clip-badge { font-size: 0.6rem; padding: 2px 6px; }
+    .clip-duration { font-size: 0.65rem; padding: 2px 5px; }
+
+    /* Download button in card — icon only on tiny screens */
+    .dl-btn {
+      font-size: 0.68rem;
+      padding: 5px 8px;
+      gap: 3px;
+    }
+    .dl-btn .dl-label { display: none; } /* hide "DL" text, keep icon */
+
+    /* Play overlay always visible on touch (no hover) */
+    .play-overlay { opacity: 0.7; }
+    .play-btn-circle {
+      width: 40px;
+      height: 40px;
+    }
+
+    /* Modal — full screen on phones */
+    .modal-backdrop {
+      padding: 0;
+      align-items: flex-end;
+    }
+    .modal-content {
+      border-radius: 16px 16px 0 0;
+      max-width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .modal-header { padding: 14px 16px; }
+    .modal-title { font-size: 1rem; }
+    .modal-footer {
+      padding: 12px 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .modal-info { gap: 6px; }
+
+    /* Login card */
+    .login-wrap { padding: 1rem; align-items: flex-start; padding-top: 2rem; }
+    .login-card { padding: 1.75rem 1.25rem; }
+
+    /* Admin form */
+    .admin-main { padding: 1rem; }
+    .admin-page-title { font-size: 1.25rem; }
+    .form-card { padding: 1.1rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .admin-metrics { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .metric-card { padding: 0.75rem 0.9rem; }
+    .metric-num { font-size: 1.5rem; }
+    .metric-label { font-size: 0.65rem; }
+
+    /* Admin table — card layout instead of table */
+    .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .admin-table { min-width: 520px; }
+
+    /* Toast — full width at bottom */
+    .toast {
+      left: 1rem;
+      right: 1rem;
+      bottom: 1.25rem;
+      font-size: 0.8rem;
+    }
+
+    /* Section header */
+    .section-header { margin-bottom: 1rem; }
+    .section-title { font-size: 0.85rem; }
+    .section-count { font-size: 0.72rem; }
+
+    /* Inputs — prevent iOS zoom (needs font-size >= 16px) */
+    .form-input, .form-select, .form-textarea, .search-input {
+      font-size: 16px;
+    }
+
+    /* Button tap targets */
+    .btn-primary { padding: 12px 20px; font-size: 0.85rem; width: 100%; }
+    .nav-btn { touch-action: manipulation; }
+  }
+
+  /* Very small phones (360px and below) */
+  @media (max-width: 360px) {
+    .clip-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.75rem; }
+    .stats-bar { gap: 1rem; }
+  }
+
+  /* Touch devices — always show play overlay */
+  @media (hover: none) {
+    .play-overlay { opacity: 0.65; }
+    .clip-card:hover { transform: none; }
   }
 </style>
 </head>
@@ -718,11 +892,11 @@ function VideoModal({ clip, onClose }) {
           </div>
           {!isDemo ? (
             <a href={clip.url} download={clip.title} className="dl-btn" target="_blank" rel="noreferrer">
-              <DownloadIcon /> Download
+              <DownloadIcon /> <span className="dl-label">Download</span>
             </a>
           ) : (
             <span className="dl-btn" style={{opacity:0.4, cursor:'default'}}>
-              <DownloadIcon /> No File
+              <DownloadIcon /> <span className="dl-label">No File</span>
             </span>
           )}
         </div>
@@ -771,7 +945,7 @@ function ClipCard({ clip, onPlay, onDownload }) {
             {tagList.slice(0,2).map(t => <span key={t} className="clip-tag">{t.trim()}</span>)}
           </div>
           <button className="dl-btn" onClick={e => { e.stopPropagation(); onDownload(clip); }}>
-            <DownloadIcon /> DL
+            <DownloadIcon /> <span className="dl-label">DL</span>
           </button>
         </div>
       </div>
@@ -948,6 +1122,7 @@ function Admin({ onBack, onLogout }) {
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ title:'', hero:'', tags:'', url:'', thumb:'', duration:'' });
   const [dragging, setDragging] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fileRef = useRef(null);
 
   const fetchClips = async () => {
@@ -1049,6 +1224,11 @@ function Admin({ onBack, onLogout }) {
     { id:'clips', label:'Manage Clips', icon:'🎞️' },
   ];
 
+  const handleNavItem = (id) => {
+    setPage(id);
+    setMobileMenuOpen(false);
+  };
+
   return (
     <>
       <nav className="nav">
@@ -1069,8 +1249,29 @@ function Admin({ onBack, onLogout }) {
             Swal.fire({ title:'Logout?', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#2563eb', confirmButtonText:'Logout', background:'#0f1a30', color:'#e8eaf6' })
             .then(r => { if (r.isConfirmed) { showToast('Logged out'); setTimeout(onLogout, 800); } });
           }}>Logout</button>
+          {/* Mobile menu toggle */}
+          <button
+            className="nav-btn mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(o => !o)}
+            style={{display:'none'}}
+            aria-label="Menu"
+          >☰</button>
         </div>
       </nav>
+
+      {/* Mobile bottom tab bar for admin */}
+      <div className="admin-mobile-tabs">
+        {navItems.map(item => (
+          <button
+            key={item.id}
+            className={`admin-mobile-tab ${page === item.id ? 'active' : ''}`}
+            onClick={() => handleNavItem(item.id)}
+          >
+            <span className="admin-mobile-tab-icon">{item.icon}</span>
+            <span className="admin-mobile-tab-label">{item.label}</span>
+          </button>
+        ))}
+      </div>
 
       <div className="admin-layout">
         <aside className="admin-sidebar">
@@ -1190,7 +1391,7 @@ function Admin({ onBack, onLogout }) {
                     <input type="text" className="form-input" placeholder="Player name(s), comma separated" value={form.tags} onChange={e => setForm(p => ({...p, tags:e.target.value}))} />
                   </div>
                 </div>
-                <div style={{display:'flex', gap:10, marginTop:4}}>
+                <div style={{display:'flex', gap:10, marginTop:4, flexWrap:'wrap'}}>
                   <button className="btn-primary" onClick={handleSubmit} disabled={saving}>
                     {saving ? '⏳ Saving...' : editId ? '✓ Save Changes' : '+ Add to Database'}
                   </button>
@@ -1257,6 +1458,9 @@ function Admin({ onBack, onLogout }) {
 
         </main>
       </div>
+
+      {/* Bottom padding so content isn't hidden behind mobile tabs */}
+      <div className="admin-mobile-bottom-pad" />
     </>
   );
 }
@@ -1287,5 +1491,63 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
+
+<!-- Mobile admin tab bar styles (injected separately to keep base styles clean) -->
+<style>
+  /* Admin bottom tab bar — mobile only */
+  .admin-mobile-tabs {
+    display: none;
+  }
+  .admin-mobile-bottom-pad {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .admin-mobile-tabs {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 150;
+      background: rgba(10,14,26,0.97);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      height: 60px;
+    }
+    .admin-mobile-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      padding: 6px 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .admin-mobile-tab.active {
+      color: var(--blue-bright);
+      background: rgba(30,144,255,0.06);
+    }
+    .admin-mobile-tab:active {
+      background: rgba(30,144,255,0.1);
+    }
+    .admin-mobile-tab-icon { font-size: 1.2rem; line-height: 1; }
+    .admin-mobile-tab-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .admin-mobile-bottom-pad {
+      display: block;
+      height: 60px;
+    }
+
+    /* On mobile, the admin layout fills below the nav; sidebar is hidden */
+    .admin-layout {
+      min-height: calc(100vh - 56px - 60px);
+    }
+  }
+</style>
 </body>
 </html>
