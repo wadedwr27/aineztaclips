@@ -1186,8 +1186,8 @@ function Admin({ onBack, onLogout }) {
                     )}
                   </div>
                   <div className="form-group" style={{gridColumn:'1/-1'}}>
-                    <label className="form-label">IGN (comma separated)</label>
-                    <input type="text" className="form-input" placeholder="Player name(s), comma separated" value={form.tags} onChange={e => setForm(p => ({...p, tags:e.target.value}))} />
+                    <label className="form-label">IGN</label>
+                    <input type="text" className="form-input" placeholder="Player name(s)" value={form.tags} onChange={e => setForm(p => ({...p, tags:e.target.value}))} />
                   </div>
                 </div>
                 <div style={{display:'flex', gap:10, marginTop:4}}>
