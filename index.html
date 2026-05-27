@@ -255,10 +255,13 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* ── MODAL ── */
   .modal-backdrop {
     position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
-    z-index: 200; display: flex; align-items: center; justify-content: center;
-    padding: 2rem; animation: fadeIn 0.15s ease;
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+    animation: fadeIn 0.15s ease;
   }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -285,13 +288,41 @@
 
   .modal-close:hover { background: var(--red); color: #fff; border-color: var(--red); }
 
+  /* ── VIDEO AREA — fixed brightness & centering ── */
   .modal-video {
-    width: 100%; aspect-ratio: 16/9; background: #000;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    position: relative;
+    overflow: hidden;
     display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); font-size: 0.9rem; flex-direction: column; gap: 12px;
   }
 
-  .modal-video video { width: 100%; height: 100%; object-fit: contain; }
+  /* iframe gets full coverage, no dark shrinking */
+  .modal-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    background: #000;
+  }
+
+  /* native video also fills the box */
+  .modal-video video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* placeholder text (no url) */
+  .modal-video .video-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; color: var(--text-muted); font-size: 0.9rem; z-index: 1;
+  }
 
   .modal-footer {
     padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
@@ -504,7 +535,7 @@
       letter-spacing: 0.04em;
     }
     .nav-right { gap: 0.5rem; }
-    .db-badge { display: none; } /* hide on tiny screens to save space */
+    .db-badge { display: none; }
     .nav-btn {
       font-size: 0.72rem;
       padding: 5px 10px;
@@ -537,10 +568,10 @@
     }
     .search-input {
       font-size: 0.88rem;
-      padding: 11px 14px 11px 40px; /* slightly taller tap target */
+      padding: 11px 14px 11px 40px;
     }
 
-    /* Hero chips — horizontal scroll instead of wrap */
+    /* Hero chips — horizontal scroll */
     .hero-chips {
       padding: 0 1rem;
       flex-wrap: nowrap;
@@ -556,7 +587,6 @@
       flex-shrink: 0;
       font-size: 0.75rem;
       padding: 6px 12px;
-      /* Slightly taller for touch */
     }
 
     /* Clip grid — 2-col on phones */
@@ -573,42 +603,68 @@
     .clip-badge { font-size: 0.6rem; padding: 2px 6px; }
     .clip-duration { font-size: 0.65rem; padding: 2px 5px; }
 
-    /* Download button in card — icon only on tiny screens */
+    /* Download button in card */
     .dl-btn {
       font-size: 0.68rem;
       padding: 5px 8px;
       gap: 3px;
     }
-    .dl-btn .dl-label { display: none; } /* hide "DL" text, keep icon */
+    .dl-btn .dl-label { display: none; }
 
-    /* Play overlay always visible on touch (no hover) */
+    /* Play overlay always visible on touch */
     .play-overlay { opacity: 0.7; }
     .play-btn-circle {
       width: 40px;
       height: 40px;
     }
 
-    /* Modal — full screen on phones */
-    /* Modal — centered on phones */
+    /* ── MODAL FIXES FOR MOBILE ── */
     .modal-backdrop {
-      padding: 1rem;
+      padding: 0.75rem;
       align-items: center;
+      justify-content: center;
     }
+
     .modal-content {
       border-radius: 12px;
       max-width: 100%;
-      max-height: 92vh;
+      width: 100%;
+      /* Let it size naturally, no forced max-height that pushes it off center */
+      max-height: 90vh;
       overflow-y: auto;
+      /* Ensure it stays centered — don't let it drift */
+      margin: auto;
+      position: relative;
     }
-    .modal-header { padding: 14px 16px; }
-    .modal-title { font-size: 1rem; }
+
+    .modal-header { padding: 12px 14px; }
+    .modal-title { font-size: 0.95rem; }
+
+    /* Modal footer — row layout, DL button always shows label */
     .modal-footer {
-      padding: 12px 16px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
+      padding: 10px 14px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: nowrap;
     }
-    .modal-info { gap: 6px; }
+    .modal-info {
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    /* Force DL label to show on mobile modal */
+    .modal-footer .dl-btn .dl-label {
+      display: inline !important;
+    }
+    /* Make download button more tappable */
+    .modal-footer .dl-btn {
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      flex-shrink: 0;
+    }
 
     /* Login card */
     .login-wrap { padding: 1rem; align-items: flex-start; padding-top: 2rem; }
@@ -624,7 +680,7 @@
     .metric-num { font-size: 1.5rem; }
     .metric-label { font-size: 0.65rem; }
 
-    /* Admin table — card layout instead of table */
+    /* Admin table */
     .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .admin-table { min-width: 520px; }
 
@@ -641,7 +697,7 @@
     .section-title { font-size: 0.85rem; }
     .section-count { font-size: 0.72rem; }
 
-    /* Inputs — prevent iOS zoom (needs font-size >= 16px) */
+    /* Inputs — prevent iOS zoom */
     .form-input, .form-select, .form-textarea, .search-input {
       font-size: 16px;
     }
@@ -656,6 +712,7 @@
     .clip-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 1.75rem; }
     .stats-bar { gap: 1rem; }
+    .modal-backdrop { padding: 0.5rem; }
   }
 
   /* Touch devices — always show play overlay */
@@ -693,7 +750,8 @@ function extractGDriveId(input) {
 function getGDriveEmbedUrl(url) {
   if (!url) return null;
   const fileId = extractGDriveId(url);
-  if (fileId) return `https://drive.google.com/file/d/${fileId}/preview`;
+  // rm=minimal removes Google Drive's dark chrome wrapper for a cleaner embed
+  if (fileId) return `https://drive.google.com/file/d/${fileId}/preview?rm=minimal`;
   return null;
 }
 
@@ -849,7 +907,12 @@ function VideoModal({ clip, onClose }) {
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
+    // Prevent body scroll while modal is open
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
   }, []);
 
   const isDemo = !clip.url;
@@ -867,40 +930,44 @@ function VideoModal({ clip, onClose }) {
           <button className="modal-close" onClick={onClose}><XIcon /></button>
         </div>
 
+        {/* ── VIDEO AREA ── */}
         <div className="modal-video">
           {!isDemo ? (
             isGDriveLink(clip.url) ? (
+              /* Google Drive iframe — fills the container absolutely */
               <iframe
                 src={getGDriveEmbedUrl(clip.url)}
-                style={{width:'100%', height:'100%', border:'none'}}
-                allow="autoplay"
+                allow="autoplay; fullscreen"
                 allowFullScreen
+                loading="eager"
+                title={clip.title}
               />
             ) : (
-              <video controls autoPlay style={{width:'100%',height:'100%',objectFit:'contain'}}>
+              /* Native video — also fills absolutely via CSS */
+              <video controls autoPlay>
                 <source src={clip.url} />
                 Your browser does not support this video format.
               </video>
             )
           ) : (
-            <>
+            <div className="video-placeholder">
               <FilmIcon />
               <div style={{textAlign:'center'}}>
                 <div style={{color:'var(--text-secondary)', fontSize:'0.9rem'}}>{clip.title}</div>
                 <div style={{color:'var(--text-muted)', fontSize:'0.78rem', marginTop:4}}>No video URL attached</div>
               </div>
-            </>
+            </div>
           )}
         </div>
 
         <div className="modal-footer">
           <div className="modal-info">
             {clip.ign && clip.ign.trim() ? (
-              <span className="clip-ign-name">
+              <span className="clip-ign-name" style={{maxWidth:160, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>
                 {clip.ign.split(',').filter(Boolean).map(t=>t.trim()).join(', ')}
               </span>
             ) : null}
-            {clip.duration && <span style={{fontSize:'0.78rem', color:'var(--text-muted)'}}>⏱ {clip.duration}</span>}
+            {clip.duration && <span style={{fontSize:'0.78rem', color:'var(--text-muted)', whiteSpace:'nowrap'}}>⏱ {clip.duration}</span>}
           </div>
           {!isDemo ? (
             <a href={clip.url} download={clip.title} className="dl-btn" target="_blank" rel="noreferrer">
@@ -1136,7 +1203,6 @@ function Admin({ onBack, onLogout }) {
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'' });
   const [dragging, setDragging] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fileRef = useRef(null);
 
   const fetchClips = async () => {
@@ -1238,11 +1304,6 @@ function Admin({ onBack, onLogout }) {
     { id:'clips', label:'Manage Clips', icon:'🎞️' },
   ];
 
-  const handleNavItem = (id) => {
-    setPage(id);
-    setMobileMenuOpen(false);
-  };
-
   return (
     <>
       <nav className="nav">
@@ -1263,13 +1324,6 @@ function Admin({ onBack, onLogout }) {
             Swal.fire({ title:'Logout?', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#2563eb', confirmButtonText:'Logout', background:'#0f1a30', color:'#e8eaf6' })
             .then(r => { if (r.isConfirmed) { showToast('Logged out'); setTimeout(onLogout, 800); } });
           }}>Logout</button>
-          {/* Mobile menu toggle */}
-          <button
-            className="nav-btn mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(o => !o)}
-            style={{display:'none'}}
-            aria-label="Menu"
-          >☰</button>
         </div>
       </nav>
 
@@ -1279,7 +1333,7 @@ function Admin({ onBack, onLogout }) {
           <button
             key={item.id}
             className={`admin-mobile-tab ${page === item.id ? 'active' : ''}`}
-            onClick={() => handleNavItem(item.id)}
+            onClick={() => setPage(item.id)}
           >
             <span className="admin-mobile-tab-icon">{item.icon}</span>
             <span className="admin-mobile-tab-label">{item.label}</span>
@@ -1473,7 +1527,6 @@ function Admin({ onBack, onLogout }) {
         </main>
       </div>
 
-      {/* Bottom padding so content isn't hidden behind mobile tabs */}
       <div className="admin-mobile-bottom-pad" />
     </>
   );
@@ -1506,15 +1559,10 @@ function App() {
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 
-<!-- Mobile admin tab bar styles (injected separately to keep base styles clean) -->
+<!-- Mobile admin tab bar styles -->
 <style>
-  /* Admin bottom tab bar — mobile only */
-  .admin-mobile-tabs {
-    display: none;
-  }
-  .admin-mobile-bottom-pad {
-    display: none;
-  }
+  .admin-mobile-tabs { display: none; }
+  .admin-mobile-bottom-pad { display: none; }
 
   @media (max-width: 768px) {
     .admin-mobile-tabs {
@@ -1546,21 +1594,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
       color: var(--blue-bright);
       background: rgba(30,144,255,0.06);
     }
-    .admin-mobile-tab:active {
-      background: rgba(30,144,255,0.1);
-    }
+    .admin-mobile-tab:active { background: rgba(30,144,255,0.1); }
     .admin-mobile-tab-icon { font-size: 1.2rem; line-height: 1; }
     .admin-mobile-tab-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 
-    .admin-mobile-bottom-pad {
-      display: block;
-      height: 60px;
-    }
-
-    /* On mobile, the admin layout fills below the nav; sidebar is hidden */
-    .admin-layout {
-      min-height: calc(100vh - 56px - 60px);
-    }
+    .admin-mobile-bottom-pad { display: block; height: 60px; }
+    .admin-layout { min-height: calc(100vh - 56px - 60px); }
   }
 </style>
 </body>
