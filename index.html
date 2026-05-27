@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ainezta Clips</title>
- <link rel="shortcut icon" href="ainezta logo.webp" type="image/x-icon">
+<link rel="shortcut icon" href="ainezta logo.webp" type="image/x-icon">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -15,51 +15,64 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --navy: #0a0e1a;
-    --navy-2: #0d1526;
-    --navy-3: #111c33;
-    --navy-4: #162040;
-    --navy-5: #1a2850;
-    --navy-card: #0f1a30;
-    --blue-bright: #1e90ff;
-    --blue-glow: #2563eb;
-    --blue-light: #60a5fa;
-    --blue-muted: #1e3a6e;
-    --gold: #f59e0b;
-    --gold-light: #fcd34d;
-    --text-primary: #e8eaf6;
-    --text-secondary: #8ba3c7;
-    --text-muted: #4a6080;
-    --border: rgba(30, 144, 255, 0.12);
-    --border-hover: rgba(30, 144, 255, 0.3);
-    --red: #ef4444;
-    --green: #22c55e;
-    --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
-    --shadow-glow: 0 0 20px rgba(30,144,255,0.15);
+    --bg:        #0a0a0a;
+    --bg-2:      #111111;
+    --bg-3:      #181818;
+    --bg-4:      #202020;
+    --bg-5:      #282828;
+    --card:      #141414;
+    --accent:    #ffffff;
+    --accent-2:  #d4d4d4;
+    --muted:     #666666;
+    --dim:       #3a3a3a;
+    --border:    rgba(255,255,255,0.07);
+    --border-hv: rgba(255,255,255,0.22);
+    --red:       #ef4444;
+    --green:     #bbbbbb;
+    --shadow:    0 4px 24px rgba(0,0,0,0.7);
+    --glow:      0 0 20px rgba(255,255,255,0.04);
+
+    --navy:       var(--bg);
+    --navy-2:     var(--bg-2);
+    --navy-3:     var(--bg-3);
+    --navy-4:     var(--bg-4);
+    --navy-5:     var(--bg-5);
+    --navy-card:  var(--card);
+    --blue-bright: var(--accent);
+    --blue-glow:   #555555;
+    --blue-light:  var(--accent-2);
+    --blue-muted:  var(--dim);
+    --gold:        var(--accent-2);
+    --gold-light:  #ffffff;
+    --text-primary:   var(--accent);
+    --text-secondary: var(--accent-2);
+    --text-muted:     var(--muted);
+    --shadow-card: var(--shadow);
+    --shadow-glow: var(--glow);
   }
 
   html { scroll-behavior: smooth; }
 
   body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--navy);
-    color: var(--text-primary);
+    background: var(--bg);
+    color: var(--accent);
     min-height: 100vh;
     overflow-x: hidden;
   }
 
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--navy-2); }
-  ::-webkit-scrollbar-thumb { background: var(--blue-muted); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--blue-glow); }
+  ::-webkit-scrollbar-track { background: var(--bg-2); }
+  ::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
 
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(30,144,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30,144,255,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
@@ -69,7 +82,7 @@
 
   .nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(10,14,26,0.92);
+    background: rgba(10,10,10,0.94);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     padding: 0 2rem;
@@ -79,49 +92,49 @@
 
   .nav-logo {
     font-size: 1.5rem; font-weight: 700; letter-spacing: 0.08em;
-    color: var(--text-primary);
+    color: var(--accent);
     display: flex; align-items: center; gap: 10px;
     text-decoration: none; cursor: pointer;
   }
 
-  .nav-logo span.accent { color: var(--blue-bright); }
+  .nav-logo span.accent { color: var(--accent); opacity: 0.55; }
   .nav-right { display: flex; align-items: center; gap: 1rem; }
 
   .nav-btn {
     font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
     text-transform: uppercase; padding: 6px 16px; border-radius: 4px;
-    border: 1px solid var(--border-hover); background: transparent;
-    color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    border: 1px solid var(--border-hv); background: transparent;
+    color: var(--accent-2); cursor: pointer; transition: all 0.2s;
     white-space: nowrap;
   }
 
-  .nav-btn:hover { background: var(--blue-muted); color: var(--text-primary); border-color: var(--blue-bright); }
-  .nav-btn.admin { background: var(--blue-glow); color: #fff; border-color: var(--blue-glow); }
-  .nav-btn.admin:hover { background: var(--blue-bright); }
+  .nav-btn:hover { background: var(--bg-4); color: var(--accent); border-color: var(--accent); }
+  .nav-btn.admin { background: var(--accent); color: #000; border-color: var(--accent); }
+  .nav-btn.admin:hover { background: var(--accent-2); }
 
   .hero { padding: 4rem 2rem 3rem; max-width: 1200px; margin: 0 auto; }
 
   .hero-label {
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--blue-bright);
+    text-transform: uppercase; color: var(--accent-2);
     margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;
   }
 
-  .hero-label::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--blue-bright); }
+  .hero-label::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--accent); }
 
   .hero h1 {
     font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700;
     line-height: 1.1; letter-spacing: 0.02em; margin-bottom: 1rem;
   }
 
-  .hero h1 em { font-style: normal; color: var(--blue-bright); }
-  .hero p { color: var(--text-secondary); font-size: 1rem; max-width: 500px; line-height: 1.7; }
+  .hero h1 em { font-style: normal; color: var(--accent); opacity: 0.55; }
+  .hero p { color: var(--muted); font-size: 1rem; max-width: 500px; line-height: 1.7; }
 
   .stats-bar { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
   .stat-item { display: flex; flex-direction: column; gap: 2px; }
-  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); line-height: 1; }
-  .stat-num span { color: var(--blue-bright); }
-  .stat-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-num span { color: var(--muted); }
+  .stat-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
   .stat-divider { width: 1px; background: var(--border); align-self: stretch; margin: 4px 0; }
 
   .search-section {
@@ -130,28 +143,28 @@
   }
 
   .search-wrap { flex: 1; min-width: 220px; position: relative; }
-  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
 
   .search-input {
     width: 100%; font-size: 0.9rem; padding: 10px 14px 10px 42px;
-    background: var(--navy-card); border: 1px solid var(--border);
-    border-radius: 6px; color: var(--text-primary); outline: none;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--accent); outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
 
-  .search-input::placeholder { color: var(--text-muted); }
-  .search-input:focus { border-color: var(--blue-bright); box-shadow: 0 0 0 3px rgba(30,144,255,0.1); }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.07); }
 
   .hero-chips { max-width: 1200px; margin: 0 auto 2rem; padding: 0 2rem; display: flex; gap: 8px; flex-wrap: wrap; }
 
   .hero-chip {
     font-size: 0.78rem; font-weight: 500; padding: 5px 14px; border-radius: 20px;
-    border: 1px solid var(--border); background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border); background: transparent; color: var(--muted);
     cursor: pointer; transition: all 0.18s; letter-spacing: 0.03em;
   }
 
-  .hero-chip:hover { border-color: var(--border-hover); color: var(--text-secondary); background: rgba(30,144,255,0.06); }
-  .hero-chip.active { border-color: var(--gold); color: var(--gold-light); background: rgba(245,158,11,0.1); }
+  .hero-chip:hover { border-color: var(--border-hv); color: var(--accent-2); background: rgba(255,255,255,0.04); }
+  .hero-chip.active { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.08); }
 
   .clip-grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; }
 
@@ -159,49 +172,49 @@
 
   .section-title {
     font-size: 1rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--text-secondary);
+    text-transform: uppercase; color: var(--accent-2);
   }
 
   .section-count {
-    font-size: 0.8rem; color: var(--text-muted); background: var(--navy-card);
+    font-size: 0.8rem; color: var(--muted); background: var(--card);
     padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border);
   }
 
   .clip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
 
   .clip-card {
-    background: var(--navy-card); border: 1px solid var(--border);
+    background: var(--card); border: 1px solid var(--border);
     border-radius: 10px; overflow: hidden; transition: all 0.25s; cursor: pointer;
   }
 
-  .clip-card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: var(--shadow-card), var(--shadow-glow); }
+  .clip-card:hover { border-color: var(--border-hv); transform: translateY(-3px); box-shadow: var(--shadow), var(--glow); }
 
-  .clip-thumb { position: relative; aspect-ratio: 16/9; background: var(--navy-3); overflow: hidden; }
+  .clip-thumb { position: relative; aspect-ratio: 16/9; background: var(--bg-3); overflow: hidden; }
   .clip-thumb video { width: 100%; height: 100%; object-fit: cover; }
 
   .clip-thumb-placeholder {
     width: 100%; height: 100%; display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 8px;
-    background: linear-gradient(135deg, var(--navy-3), var(--navy-5));
+    background: linear-gradient(135deg, var(--bg-3), var(--bg-5));
   }
 
   .play-overlay {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.2s;
+    background: rgba(0,0,0,0.45); opacity: 0; transition: opacity 0.2s;
   }
 
   .clip-card:hover .play-overlay { opacity: 1; }
 
   .play-btn-circle {
-    width: 52px; height: 52px; background: rgba(30,144,255,0.9); border-radius: 50%;
+    width: 52px; height: 52px; background: rgba(255,255,255,0.92); border-radius: 50%;
     display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
   }
 
   .clip-badge {
     position: absolute; top: 8px; left: 8px; font-size: 0.7rem; font-weight: 600;
     letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
-    background: rgba(10,14,26,0.85); border: 1px solid var(--border-hover);
-    color: var(--blue-light); backdrop-filter: blur(4px);
+    background: rgba(10,10,10,0.85); border: 1px solid var(--border-hv);
+    color: var(--accent-2); backdrop-filter: blur(4px);
   }
 
   .clip-duration {
@@ -213,51 +226,50 @@
 
   .clip-hero-tag {
     font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--gold); margin-bottom: 5px;
+    text-transform: uppercase; color: var(--accent-2); margin-bottom: 5px;
   }
 
-  .clip-title { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; margin-bottom: 10px; }
+  .clip-title { font-size: 1.05rem; font-weight: 600; color: var(--accent); line-height: 1.3; margin-bottom: 10px; }
   .clip-meta { display: flex; justify-content: space-between; align-items: center; }
   .clip-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 
   .clip-tag {
     font-size: 0.68rem; padding: 2px 7px; border-radius: 3px;
-    background: rgba(30,144,255,0.08); border: 1px solid rgba(30,144,255,0.15); color: var(--text-secondary);
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--accent-2);
   }
 
-  /* IGN display */
   .clip-ign { display: flex; align-items: center; min-width: 0; flex: 1; overflow: hidden; }
   .clip-ign-name {
-    font-size: 0.75rem; font-weight: 500; color: var(--text-secondary);
+    font-size: 0.75rem; font-weight: 500; color: var(--accent-2);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    border: 1px solid var(--border-hover); border-radius: 5px;
+    border: 1px solid var(--border-hv); border-radius: 5px;
     padding: 4px 12px; background: transparent;
   }
 
   .dl-btn {
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-    padding: 6px 14px; border-radius: 5px; border: 1px solid var(--blue-glow);
-    background: rgba(30,144,255,0.1); color: var(--blue-light); cursor: pointer;
+    padding: 6px 14px; border-radius: 5px; border: 1px solid var(--border-hv);
+    background: rgba(255,255,255,0.06); color: var(--accent-2); cursor: pointer;
     transition: all 0.18s; display: flex; align-items: center; gap: 5px; text-decoration: none;
   }
 
-  .dl-btn:hover { background: var(--blue-glow); color: #fff; }
+  .dl-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
 
   .empty-state { grid-column: 1 / -1; text-align: center; padding: 5rem 2rem; }
   .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
-  .empty-state h3 { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
-  .empty-state p { font-size: 0.85rem; color: var(--text-muted); }
+  .empty-state h3 { font-size: 1.2rem; color: var(--accent-2); margin-bottom: 0.5rem; }
+  .empty-state p { font-size: 0.85rem; color: var(--muted); }
 
   .loading-state { grid-column: 1/-1; text-align: center; padding: 5rem 2rem; }
   .spinner {
     width: 40px; height: 40px; border: 3px solid var(--border);
-    border-top-color: var(--blue-bright); border-radius: 50%;
+    border-top-color: var(--accent); border-radius: 50%;
     animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);
     z-index: 200; display: flex; align-items: center; justify-content: center;
     padding: 2rem; animation: fadeIn 0.15s ease;
   }
@@ -265,7 +277,7 @@
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .modal-content {
-    background: var(--navy-card); border: 1px solid var(--border-hover); border-radius: 12px;
+    background: var(--card); border: 1px solid var(--border-hv); border-radius: 12px;
     width: 100%; max-width: 800px; overflow: hidden; animation: slideUp 0.2s ease;
   }
 
@@ -280,7 +292,7 @@
 
   .modal-close {
     width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border);
-    background: transparent; color: var(--text-secondary); cursor: pointer;
+    background: transparent; color: var(--accent-2); cursor: pointer;
     display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.15s;
   }
 
@@ -289,7 +301,7 @@
   .modal-video {
     width: 100%; aspect-ratio: 16/9; background: #000;
     display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); font-size: 0.9rem; flex-direction: column; gap: 12px;
+    color: var(--muted); font-size: 0.9rem; flex-direction: column; gap: 12px;
   }
 
   .modal-video video { width: 100%; height: 100%; object-fit: contain; }
@@ -301,72 +313,71 @@
 
   .modal-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
-  /* ADMIN */
   .admin-layout { display: flex; min-height: calc(100vh - 64px); }
 
   .admin-sidebar {
-    width: 220px; background: var(--navy-2); border-right: 1px solid var(--border);
+    width: 220px; background: var(--bg-2); border-right: 1px solid var(--border);
     padding: 1.5rem 0; flex-shrink: 0;
   }
 
   .admin-sidebar-title {
     font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--text-muted); padding: 0 1.25rem; margin-bottom: 0.75rem;
+    color: var(--muted); padding: 0 1.25rem; margin-bottom: 0.75rem;
   }
 
   .admin-nav-item {
     display: flex; align-items: center; gap: 10px; padding: 9px 1.25rem;
-    font-size: 0.88rem; color: var(--text-secondary); cursor: pointer;
+    font-size: 0.88rem; color: var(--accent-2); cursor: pointer;
     transition: all 0.15s; border-left: 2px solid transparent; font-weight: 500;
   }
 
-  .admin-nav-item:hover { background: rgba(30,144,255,0.05); color: var(--text-primary); }
-  .admin-nav-item.active { background: rgba(30,144,255,0.08); color: var(--blue-light); border-left-color: var(--blue-bright); }
+  .admin-nav-item:hover { background: rgba(255,255,255,0.04); color: var(--accent); }
+  .admin-nav-item.active { background: rgba(255,255,255,0.07); color: var(--accent); border-left-color: var(--accent); }
 
   .admin-main { flex: 1; padding: 2rem; overflow-y: auto; }
   .admin-page-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
-  .admin-page-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+  .admin-page-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
 
   .admin-metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
 
-  .metric-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
-  .metric-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-  .metric-num { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
-  .metric-num span { color: var(--blue-bright); }
+  .metric-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
+  .metric-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .metric-num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .metric-num span { color: var(--muted); }
 
-  .form-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
 
   .form-card h3 {
     font-size: 1rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--text-secondary); margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+    color: var(--accent-2); margin-bottom: 1.25rem; padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
   }
 
   .form-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 14px; }
   .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-label { font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.04em; }
+  .form-label { font-size: 0.78rem; font-weight: 500; color: var(--accent-2); letter-spacing: 0.04em; }
 
   .form-input, .form-select, .form-textarea {
-    font-size: 0.88rem; padding: 9px 12px; background: var(--navy-3);
-    border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary);
+    font-size: 0.88rem; padding: 9px 12px; background: var(--bg-3);
+    border: 1px solid var(--border); border-radius: 6px; color: var(--accent);
     outline: none; transition: border-color 0.2s, box-shadow 0.2s;
     font-family: inherit;
   }
 
-  .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
-  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--blue-bright); box-shadow: 0 0 0 3px rgba(30,144,255,0.1); }
-  .form-select option { background: var(--navy-3); color: var(--text-primary); }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.07); }
+  .form-select option { background: var(--bg-3); color: var(--accent); }
   .form-textarea { resize: vertical; min-height: 80px; }
 
   .btn-primary {
     font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 10px 24px; border-radius: 6px; border: none; background: var(--blue-glow);
-    color: #fff; cursor: pointer; transition: all 0.18s; font-family: inherit;
+    padding: 10px 24px; border-radius: 6px; border: none; background: var(--accent);
+    color: #000; cursor: pointer; transition: all 0.18s; font-family: inherit;
   }
 
-  .btn-primary:hover { background: var(--blue-bright); transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--accent-2); transform: translateY(-1px); }
   .btn-primary:active { transform: translateY(0); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
   .btn-danger {
     font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 4px;
@@ -376,44 +387,44 @@
 
   .btn-danger:hover { background: var(--red); color: #fff; border-color: var(--red); }
 
-  .admin-table-wrap { background: var(--navy-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .admin-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
   .admin-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 
   .admin-table th {
     font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-muted); padding: 12px 16px; text-align: left;
-    background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border);
+    color: var(--muted); padding: 12px 16px; text-align: left;
+    background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border);
   }
 
-  .admin-table td { padding: 12px 16px; border-bottom: 1px solid rgba(30,144,255,0.06); color: var(--text-secondary); vertical-align: middle; }
+  .admin-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--accent-2); vertical-align: middle; }
   .admin-table tr:last-child td { border-bottom: none; }
-  .admin-table tr:hover td { background: rgba(30,144,255,0.03); color: var(--text-primary); }
-  .table-title { color: var(--text-primary); font-weight: 500; }
+  .admin-table tr:hover td { background: rgba(255,255,255,0.03); color: var(--accent); }
+  .table-title { color: var(--accent); font-weight: 500; }
 
   .table-badge {
     display: inline-block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
     text-transform: uppercase; padding: 2px 8px; border-radius: 3px;
-    background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); color: var(--gold-light);
+    background: rgba(255,255,255,0.08); border: 1px solid var(--border-hv); color: var(--accent);
   }
 
   .table-actions { display: flex; gap: 6px; }
 
   .login-wrap { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 2rem; }
 
-  .login-card { background: var(--navy-card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; width: 100%; max-width: 380px; }
+  .login-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; width: 100%; max-width: 380px; }
 
   .login-icon {
-    width: 52px; height: 52px; background: linear-gradient(135deg, var(--blue-glow), var(--blue-bright));
+    width: 160px; height: 80px; background: #111;
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; margin-bottom: 1.5rem;
+    padding: 10px; margin: 0 auto 1.5rem auto; box-sizing: border-box;
   }
 
   .login-card h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
-  .login-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+  .login-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
 
   .gdrive-box {
-    background: linear-gradient(135deg, rgba(30,144,255,0.06), rgba(37,99,235,0.04));
-    border: 1px solid rgba(30,144,255,0.25);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-hv);
     border-radius: 10px;
     padding: 1.25rem;
     margin-bottom: 1rem;
@@ -421,14 +432,14 @@
 
   .gdrive-box-title {
     display: flex; align-items: center; gap: 8px;
-    font-size: 0.82rem; font-weight: 600; color: var(--blue-light);
+    font-size: 0.82rem; font-weight: 600; color: var(--accent-2);
     letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px;
   }
 
   .gdrive-converted {
     margin-top: 10px; padding: 10px 12px;
-    background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.25);
-    border-radius: 6px; font-size: 0.78rem; color: #86efac;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-hv);
+    border-radius: 6px; font-size: 0.78rem; color: var(--accent-2);
     word-break: break-all; display: flex; align-items: flex-start; gap: 8px;
   }
 
@@ -436,36 +447,36 @@
 
   .gdrive-copy-btn {
     font-size: 0.72rem; font-weight: 600; padding: 3px 9px; border-radius: 4px;
-    border: 1px solid rgba(34,197,94,0.3); background: rgba(34,197,94,0.1);
-    color: #86efac; cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: inherit;
+    border: 1px solid var(--border-hv); background: rgba(255,255,255,0.08);
+    color: var(--accent); cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: inherit;
     flex-shrink: 0;
   }
 
-  .gdrive-copy-btn:hover { background: rgba(34,197,94,0.2); }
+  .gdrive-copy-btn:hover { background: var(--accent); color: #000; }
 
   .file-drop {
-    border: 2px dashed var(--border-hover); border-radius: 8px; padding: 2rem;
-    text-align: center; cursor: pointer; transition: all 0.2s; background: rgba(30,144,255,0.02);
+    border: 2px dashed var(--border-hv); border-radius: 8px; padding: 2rem;
+    text-align: center; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.01);
   }
 
-  .file-drop:hover, .file-drop.dragover { border-color: var(--blue-bright); background: rgba(30,144,255,0.06); }
+  .file-drop:hover, .file-drop.dragover { border-color: var(--accent); background: rgba(255,255,255,0.04); }
   .file-drop-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
-  .file-drop p { font-size: 0.85rem; color: var(--text-secondary); }
-  .file-drop small { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px; }
+  .file-drop p { font-size: 0.85rem; color: var(--accent-2); }
+  .file-drop small { font-size: 0.75rem; color: var(--muted); display: block; margin-top: 4px; }
 
   .toast {
-    position: fixed; bottom: 2rem; right: 2rem; background: var(--navy-card);
-    border: 1px solid var(--green); border-radius: 8px; padding: 12px 18px;
-    font-size: 0.85rem; color: var(--green); z-index: 500;
+    position: fixed; bottom: 2rem; right: 2rem; background: var(--card);
+    border: 1px solid var(--border-hv); border-radius: 8px; padding: 12px 18px;
+    font-size: 0.85rem; color: var(--accent); z-index: 500;
     animation: slideIn 0.2s ease; display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
   }
 
   @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
   .divider-text {
     display: flex; align-items: center; gap: 12px; margin: 14px 0;
-    color: var(--text-muted); font-size: 0.78rem;
+    color: var(--muted); font-size: 0.78rem;
   }
 
   .divider-text::before, .divider-text::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -473,14 +484,13 @@
   .db-badge {
     display: inline-flex; align-items: center; gap: 5px;
     font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 12px;
-    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: #86efac;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-hv); color: var(--accent-2);
   }
 
   .db-badge.offline {
     background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); color: #fca5a5;
   }
 
-  /* ── EXISTING TABLET/MOBILE (768px) ── */
   @media (max-width: 768px) {
     .hero { padding: 2.5rem 1.25rem 2rem; }
     .search-section { padding: 0 1.25rem; }
@@ -492,130 +502,42 @@
     .clip-grid { grid-template-columns: 1fr; }
   }
 
-  /* ── MOBILE PHONE IMPROVEMENTS (480px and below) ── */
   @media (max-width: 480px) {
-
-    /* Nav — tighter, prevent overflow */
-    .nav {
-      padding: 0 1rem;
-      height: 56px;
-    }
-    .nav-logo {
-      font-size: 1.15rem;
-      letter-spacing: 0.04em;
-    }
+    .nav { padding: 0 1rem; height: 56px; }
+    .nav-logo { font-size: 1.15rem; letter-spacing: 0.04em; }
     .nav-right { gap: 0.5rem; }
-    .db-badge { display: none; } /* hide on tiny screens to save space */
-    .nav-btn {
-      font-size: 0.72rem;
-      padding: 5px 10px;
-      letter-spacing: 0.04em;
-    }
-
-    /* Hero section */
-    .hero {
-      padding: 1.75rem 1rem 1.5rem;
-    }
-    .hero h1 {
-      font-size: 2rem;
-      margin-bottom: 0.75rem;
-    }
-    .hero p {
-      font-size: 0.88rem;
-      line-height: 1.6;
-    }
-    .stats-bar {
-      gap: 1.25rem;
-      margin-top: 1.5rem;
-    }
+    .db-badge { display: none; }
+    .nav-btn { font-size: 0.72rem; padding: 5px 10px; letter-spacing: 0.04em; }
+    .hero { padding: 1.75rem 1rem 1.5rem; }
+    .hero h1 { font-size: 2rem; margin-bottom: 0.75rem; }
+    .hero p { font-size: 0.88rem; line-height: 1.6; }
+    .stats-bar { gap: 1.25rem; margin-top: 1.5rem; }
     .stat-num { font-size: 1.5rem; }
     .stat-label { font-size: 0.65rem; }
-
-    /* Search */
-    .search-section {
-      padding: 0 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .search-input {
-      font-size: 0.88rem;
-      padding: 11px 14px 11px 40px; /* slightly taller tap target */
-    }
-
-    /* Hero chips — horizontal scroll instead of wrap */
-    .hero-chips {
-      padding: 0 1rem;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      gap: 6px;
-      margin-bottom: 1.25rem;
-      padding-bottom: 4px;
-    }
+    .search-section { padding: 0 1rem; margin-bottom: 1.5rem; }
+    .search-input { font-size: 0.88rem; padding: 11px 14px 11px 40px; }
+    .hero-chips { padding: 0 1rem; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 6px; margin-bottom: 1.25rem; padding-bottom: 4px; }
     .hero-chips::-webkit-scrollbar { display: none; }
-    .hero-chip {
-      flex-shrink: 0;
-      font-size: 0.75rem;
-      padding: 6px 12px;
-      /* Slightly taller for touch */
-    }
-
-    /* Clip grid — 2-col on phones */
+    .hero-chip { flex-shrink: 0; font-size: 0.75rem; padding: 6px 12px; }
     .clip-grid-wrap { padding: 0 1rem 3rem; }
-    .clip-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    /* Card info — tighter */
+    .clip-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .clip-info { padding: 10px 10px; }
     .clip-title { font-size: 0.85rem; margin-bottom: 8px; }
     .clip-hero-tag { font-size: 0.6rem; margin-bottom: 3px; }
     .clip-badge { font-size: 0.6rem; padding: 2px 6px; }
     .clip-duration { font-size: 0.65rem; padding: 2px 5px; }
-
-    /* Download button in card — icon only on tiny screens */
-    .dl-btn {
-      font-size: 0.68rem;
-      padding: 5px 8px;
-      gap: 3px;
-    }
-    .dl-btn .dl-label { display: none; } /* hide "DL" text, keep icon */
-
-    /* Play overlay always visible on touch (no hover) */
+    .dl-btn { font-size: 0.68rem; padding: 5px 8px; gap: 3px; }
+    .dl-btn .dl-label { display: none; }
     .play-overlay { opacity: 0.7; }
-    .play-btn-circle {
-      width: 40px;
-      height: 40px;
-    }
-
-    /* Modal — full screen on phones */
-    /* Modal — centered on phones */
-    .modal-backdrop {
-      padding: 1rem;
-      align-items: center;
-    }
-    .modal-content {
-      border-radius: 12px;
-      max-width: 100%;
-      max-height: 92vh;
-      overflow-y: auto;
-    }
+    .play-btn-circle { width: 40px; height: 40px; }
+    .modal-backdrop { padding: 1rem; align-items: center; }
+    .modal-content { border-radius: 12px; max-width: 100%; max-height: 92vh; overflow-y: auto; }
     .modal-header { padding: 14px 16px; }
     .modal-title { font-size: 1rem; }
-    .modal-footer {
-      padding: 12px 16px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
+    .modal-footer { padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
     .modal-info { gap: 6px; }
-
-    /* Login card */
     .login-wrap { padding: 1rem; align-items: flex-start; padding-top: 2rem; }
     .login-card { padding: 1.75rem 1.25rem; }
-
-    /* Admin form */
     .admin-main { padding: 1rem; }
     .admin-page-title { font-size: 1.25rem; }
     .form-card { padding: 1.1rem; }
@@ -624,42 +546,23 @@
     .metric-card { padding: 0.75rem 0.9rem; }
     .metric-num { font-size: 1.5rem; }
     .metric-label { font-size: 0.65rem; }
-
-    /* Admin table — card layout instead of table */
     .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .admin-table { min-width: 520px; }
-
-    /* Toast — full width at bottom */
-    .toast {
-      left: 1rem;
-      right: 1rem;
-      bottom: 1.25rem;
-      font-size: 0.8rem;
-    }
-
-    /* Section header */
+    .toast { left: 1rem; right: 1rem; bottom: 1.25rem; font-size: 0.8rem; }
     .section-header { margin-bottom: 1rem; }
     .section-title { font-size: 0.85rem; }
     .section-count { font-size: 0.72rem; }
-
-    /* Inputs — prevent iOS zoom (needs font-size >= 16px) */
-    .form-input, .form-select, .form-textarea, .search-input {
-      font-size: 16px;
-    }
-
-    /* Button tap targets */
+    .form-input, .form-select, .form-textarea, .search-input { font-size: 16px; }
     .btn-primary { padding: 12px 20px; font-size: 0.85rem; width: 100%; }
     .nav-btn { touch-action: manipulation; }
   }
 
-  /* Very small phones (360px and below) */
   @media (max-width: 360px) {
     .clip-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 1.75rem; }
     .stats-bar { gap: 1rem; }
   }
 
-  /* Touch devices — always show play overlay */
   @media (hover: none) {
     .play-overlay { opacity: 0.65; }
     .clip-card:hover { transform: none; }
@@ -671,12 +574,23 @@
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
 
-// ─── SUPABASE CONFIG ──────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://xfknfriidrpaoyxyfehq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhma25mcmlpZHJwYW95eHlmZWhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTA1ODAsImV4cCI6MjA5NTAyNjU4MH0.mYZS6W1t8ICVWTFtB88gNKPvRD3qZMMtlXwCDBrN7Tw';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ─── GOOGLE DRIVE HELPERS ─────────────────────────────────────────────────────
+const SwalBW = Swal.mixin({
+  background: '#141414',
+  color: '#ffffff',
+  confirmButtonColor: '#ffffff',
+  cancelButtonColor: '#333333',
+  customClass: {
+    confirmButton: 'swal-confirm-bw',
+    cancelButton: 'swal-cancel-bw',
+    popup: 'swal-popup-bw',
+    title: 'swal-title-bw',
+  }
+});
+
 function extractGDriveId(input) {
   if (!input) return null;
   const patterns = [
@@ -702,7 +616,6 @@ function isGDriveLink(url) {
   return url && url.includes('drive.google.com');
 }
 
-// ─── HEROES ───────────────────────────────────────────────────────────────────
 const HEROES = [
   "All",
   "Aamon","Akai","Aldous","Alice","Alpha","Alucard","Angela","Argus","Arlott",
@@ -723,44 +636,6 @@ const HEROES = [
   "Yve","Zhask","Zhuxin","Zetian","Zilong"
 ];
 
-const HERO_COLORS = {
-  Nolan:"#1d4ed8",Miya:"#60a5fa",Balmond:"#b91c1c",Saber:"#06b6d4",Alice:"#7e22ce",
-  Nana:"#f472b6",Tigreal:"#eab308",Alucard:"#dc2626",Karina:"#4338ca",
-  Akai:"#16a34a",Franco:"#1e3a8a",Bane:"#0f766e",Bruno:"#f97316",
-  Clint:"#92400e",Rafaela:"#fde68a",Eudora:"#2563eb",Zilong:"#2563eb",
-  Fanny:"#2563eb",Layla:"#3b82f6",Minotaur:"#991b1b",Lolita:"#ec4899",
-  Hayabusa:"#dc2626",Freya:"#facc15",Gord:"#38bdf8",Natalia:"#4b5563",
-  Kagura:"#9333ea",Chou:"#d97706",Sun:"#f59e0b",Alpha:"#6b7280",
-  Ruby:"#dc2626","Yi Sun-shin":"#4338ca",Moskov:"#7f1d1d",Johnson:"#2563eb",
-  Cyclops:"#7c3aed",Estes:"#22c55e",Hilda:"#84cc16",Aurora:"#38bdf8",
-  "Lapu-Lapu":"#92400e",Vexana:"#6d28d9",Roger:"#78716c",Karrie:"#0ea5e9",
-  Gatotkaca:"#ea580c",Harley:"#ec4899",Irithel:"#65a30d",Grock:"#57534e",
-  Argus:"#111827",Odette:"#f9a8d4",Lancelot:"#0891b2",Diggie:"#facc15",
-  Hylos:"#0f766e",Zhask:"#7c2d12",Helcurt:"#312e81",Pharsa:"#1d4ed8",
-  Lesley:"#be123c",Jawhead:"#f97316",Angela:"#fb7185",Gusion:"#db2777",
-  Valir:"#ef4444",Martis:"#991b1b",Uranus:"#0ea5e9",Hanabi:"#be185d",
-  "Chang'e":"#a855f7",Kaja:"#ca8a04",Selena:"#6d28d9",Aldous:"#1e293b",
-  Claude:"#0284c7",Vale:"#38bdf8",Leomord:"#374151",Lunox:"#facc15",
-  Hanzo:"#7f1d1d",Belerick:"#15803d",Kimmy:"#f97316",Thamuz:"#b91c1c",
-  Harith:"#ea580c",Minsitthar:"#a16207",Kadita:"#0891b2",Faramis:"#4c1d95",
-  Badang:"#f97316",Khufra:"#92400e",Granger:"#991b1b",Guinevere:"#ec4899",
-  Esmeralda:"#0f766e",Terizla:"#57534e","X.Borg":"#ea580c",Ling:"#7c3aed",
-  Dyrroth:"#7f1d1d",Lylia:"#c026d3",Baxia:"#15803d",Masha:"#dc2626",
-  Wanwan:"#16a34a",Silvanna:"#facc15",Cecilion:"#312e81",Carmilla:"#be123c",
-  Atlas:"#0f766e","Popol and Kupa":"#92400e","Yu Zhong":"#111827",
-  "Luo Yi":"#1d4ed8",Benedetta:"#65a30d",Khaleed:"#b45309",Barats:"#16a34a",
-  Brody:"#1e293b",Yve:"#6366f1",Mathilda:"#14b8a6",Paquito:"#dc2626",
-  Gloo:"#84cc16",Beatrix:"#c2410c",Phoveus:"#581c87",Natan:"#0ea5e9",
-  Aulus:"#d97706",Aamon:"#06b6d4",Valentina:"#14532d",Edith:"#6b7280",
-  Floryn:"#22c55e",Yin:"#f97316",Melissa:"#ec4899",Xavier:"#2563eb",
-  Julian:"#4f46e5",Fredrinn:"#57534e",Joy:"#eab308",Novaria:"#7c3aed",
-  Arlott:"#7f1d1d",Ixia:"#0ea5e9",Cici:"#fb7185",
-  Chip:"#14b8a6",Zhuxin:"#9333ea",Suyou:"#374151",Lukas:"#f59e0b",
-  Kalea:"#0891b2",Zetian:"#7c3aed",Obsidia:"#111827",Sora:"#38bdf8",
-  Marcel:"#a855f7",
-};
-
-// ─── ICONS ────────────────────────────────────────────────────────────────────
 const Icon = ({ d, size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
     <path d={d} />
@@ -775,7 +650,6 @@ const TrashIcon = () => <Icon d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 
 const EditIcon = () => <Icon d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" size={14} />;
 const CheckIcon = () => <Icon d="M20 6L9 17l-5-5" size={14} />;
 
-// ─── TOAST ────────────────────────────────────────────────────────────────────
 function Toast({ message, onDone }) {
   useEffect(() => {
     const t = setTimeout(onDone, 2500);
@@ -784,7 +658,6 @@ function Toast({ message, onDone }) {
   return <div className="toast"><CheckIcon /> {message}</div>;
 }
 
-// ─── GDRIVE CONVERTER ─────────────────────────────────────────────────────────
 function GDriveConverter({ onConverted }) {
   const [input, setInput] = useState('');
   const [fileId, setFileId] = useState('');
@@ -845,7 +718,6 @@ function GDriveConverter({ onConverted }) {
   );
 }
 
-// ─── VIDEO MODAL ──────────────────────────────────────────────────────────────
 function VideoModal({ clip, onClose }) {
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -860,7 +732,7 @@ function VideoModal({ clip, onClose }) {
       <div className="modal-content">
         <div className="modal-header">
           <div>
-            <div style={{fontSize:'0.7rem', color:'var(--gold)', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:3}}>
+            <div style={{fontSize:'0.7rem', color:'var(--accent-2)', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:3}}>
               {clip.hero}
             </div>
             <div className="modal-title">{clip.title}</div>
@@ -887,8 +759,8 @@ function VideoModal({ clip, onClose }) {
             <>
               <FilmIcon />
               <div style={{textAlign:'center'}}>
-                <div style={{color:'var(--text-secondary)', fontSize:'0.9rem'}}>{clip.title}</div>
-                <div style={{color:'var(--text-muted)', fontSize:'0.78rem', marginTop:4}}>No video URL attached</div>
+                <div style={{color:'var(--accent-2)', fontSize:'0.9rem'}}>{clip.title}</div>
+                <div style={{color:'var(--muted)', fontSize:'0.78rem', marginTop:4}}>No video URL attached</div>
               </div>
             </>
           )}
@@ -901,7 +773,7 @@ function VideoModal({ clip, onClose }) {
                 {clip.ign.split(',').filter(Boolean).map(t=>t.trim()).join(', ')}
               </span>
             ) : null}
-            {clip.duration && <span style={{fontSize:'0.78rem', color:'var(--text-muted)'}}>⏱ {clip.duration}</span>}
+            {clip.duration && <span style={{fontSize:'0.78rem', color:'var(--muted)'}}>⏱ {clip.duration}</span>}
           </div>
           {!isDemo ? (
             <a href={clip.url} download={clip.title} className="dl-btn" target="_blank" rel="noreferrer">
@@ -918,9 +790,7 @@ function VideoModal({ clip, onClose }) {
   );
 }
 
-// ─── CLIP CARD ────────────────────────────────────────────────────────────────
 function ClipCard({ clip, onPlay, onDownload }) {
-  const heroColor = HERO_COLORS[clip.hero] || '#2563eb';
   const hasThumb = !!clip.thumb;
   const tagList = clip.ign ? clip.ign.split(',').filter(Boolean) : [];
 
@@ -935,28 +805,28 @@ function ClipCard({ clip, onPlay, onDownload }) {
             onError={e => { e.target.style.display='none'; }}
           />
         ) : (
-          <div className="clip-thumb-placeholder" style={{background:`linear-gradient(135deg, ${heroColor}22, var(--navy-5))`}}>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={heroColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{opacity:0.6}}>
+          <div className="clip-thumb-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.68V15.32a1 1 0 0 1-1.447.897L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/>
             </svg>
-            <span style={{fontSize:'0.72rem', color:heroColor, opacity:0.7, fontWeight:600, letterSpacing:'0.08em'}}>{clip.hero}</span>
+            <span style={{fontSize:'0.72rem', color:'rgba(255,255,255,0.3)', fontWeight:600, letterSpacing:'0.08em'}}>{clip.hero}</span>
           </div>
         )}
         <span className="clip-badge">{clip.hero}</span>
         {clip.duration && <span className="clip-duration">{clip.duration}</span>}
         <div className="play-overlay">
           <div className="play-btn-circle">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M5 3l14 9-14 9V3z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#000" stroke="none"><path d="M5 3l14 9-14 9V3z"/></svg>
           </div>
         </div>
       </div>
       <div className="clip-info">
-        <div className="clip-hero-tag" style={{color: heroColor}}>{clip.hero}</div>
+        <div className="clip-hero-tag">{clip.hero}</div>
         <div className="clip-title">{clip.title}</div>
         <div className="clip-meta">
           <div className="clip-ign">
             <span className="clip-ign-name">
-              {tagList.length > 0 ? tagList[0].trim() : <span style={{color:'var(--text-muted)'}}>—</span>}
+              {tagList.length > 0 ? tagList[0].trim() : <span style={{color:'var(--muted)'}}>—</span>}
             </span>
           </div>
           <button className="dl-btn" onClick={e => { e.stopPropagation(); onDownload(clip); }}>
@@ -968,7 +838,6 @@ function ClipCard({ clip, onPlay, onDownload }) {
   );
 }
 
-// ─── PUBLIC GALLERY ───────────────────────────────────────────────────────────
 function Gallery({ onAdminClick }) {
   const [clips, setClips] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1014,10 +883,10 @@ function Gallery({ onAdminClick }) {
   return (
     <>
       <nav className="nav">
-        <div className="nav-logo">WADE<span className="accent">MLBB</span>Clips</div>
+        <div className="nav-logo">Ainezta<span className="accent">MLBB</span>Clips</div>
         <div className="nav-right">
           <span className={`db-badge ${dbOnline ? '' : 'offline'}`}>
-            <span style={{width:6,height:6,borderRadius:'50%',background:dbOnline?'#22c55e':'#ef4444',display:'inline-block'}}></span>
+            <span style={{width:6,height:6,borderRadius:'50%',background:dbOnline?'#888':'#ef4444',display:'inline-block'}}></span>
             {dbOnline ? 'DB Live' : 'DB Offline'}
           </span>
           <button className="nav-btn admin" onClick={onAdminClick}>Admin</button>
@@ -1048,7 +917,7 @@ function Gallery({ onAdminClick }) {
       <div className="search-section">
         <div className="search-wrap">
           <SearchIcon />
-          <input className="search-input" placeholder="Search clips, heroes, tags..." value={search} onChange={e => setSearch(e.target.value)} />
+          <input className="search-input" placeholder="Search clips, heroes, owner..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
       </div>
 
@@ -1067,7 +936,7 @@ function Gallery({ onAdminClick }) {
           {loading ? (
             <div className="loading-state">
               <div className="spinner"></div>
-              <div style={{color:'var(--text-muted)', fontSize:'0.85rem'}}>Loading clips from database...</div>
+              <div style={{color:'var(--muted)', fontSize:'0.85rem'}}>Loading clips from database...</div>
             </div>
           ) : filtered.length === 0 ? (
             <div className="empty-state">
@@ -1087,31 +956,28 @@ function Gallery({ onAdminClick }) {
   );
 }
 
-// ─── LOGIN ────────────────────────────────────────────────────────────────────
 function Login({ onLogin }) {
   const [pass, setPass] = useState('');
 
   const handle = (e) => {
     e.preventDefault();
-    if (pass === 'admin123') {
-      Swal.fire({ icon:'success', title:'Welcome Admin', text:'Access granted.', timer:1500, showConfirmButton:false, background:'#0f1a30', color:'#e8eaf6' });
+    if (pass === 'ainezta123') {
+      SwalBW.fire({ icon:'success', title:'Welcome Admin', text:'Access granted.', timer:1500, showConfirmButton:false });
       setTimeout(() => onLogin(), 1200);
     } else {
-      Swal.fire({ icon:'error', title:'Access Denied', text:'Incorrect password.', background:'#0f1a30', color:'#e8eaf6', confirmButtonColor:'#2563eb' });
+      SwalBW.fire({ icon:'error', title:'Access Denied', text:'Incorrect password.' });
     }
   };
 
   return (
     <>
       <nav className="nav">
-        <div className="nav-logo">WADE <span className="accent">MLBB</span>Clips</div>
+        <div className="nav-logo">Ainezta <span className="accent">MLBB</span>Clips</div>
       </nav>
       <div className="login-wrap">
         <div className="login-card">
           <div className="login-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="8" r="4" /><path d="M20 21a8 8 0 0 0-16 0" />
-            </svg>
+            <img src="ainezta.webp" alt="Ainezta Logo" style={{width:'100%', height:'100%', objectFit:'contain'}} />
           </div>
           <h2>Admin Access</h2>
           <p>Enter your password to manage the clip library</p>
@@ -1128,7 +994,6 @@ function Login({ onLogin }) {
   );
 }
 
-// ─── ADMIN DASHBOARD ──────────────────────────────────────────────────────────
 function Admin({ onBack, onLogout }) {
   const [page, setPage] = useState('dashboard');
   const [clips, setClips] = useState([]);
@@ -1137,7 +1002,6 @@ function Admin({ onBack, onLogout }) {
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'' });
   const [dragging, setDragging] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fileRef = useRef(null);
 
   const fetchClips = async () => {
@@ -1149,12 +1013,12 @@ function Admin({ onBack, onLogout }) {
 
   useEffect(() => { fetchClips(); }, []);
 
-  const showSwal = (opts) => Swal.fire({ background:'#0f1a30', color:'#e8eaf6', confirmButtonColor:'#2563eb', ...opts });
+  const showSwal = (opts) => SwalBW.fire(opts);
 
-  const showToast = (msg) => Swal.fire({
+  const showToast = (msg) => SwalBW.fire({
     toast:true, position:'top-end', icon:'success', title:msg,
     showConfirmButton:false, timer:2200, timerProgressBar:true,
-    background:'#0f1a30', color:'#e8eaf6', iconColor:'#60a5fa',
+    iconColor:'#aaaaaa',
   });
 
   const handleFile = (f) => {
@@ -1201,16 +1065,16 @@ function Admin({ onBack, onLogout }) {
     } else {
       const { error } = await sb.from('clips').insert([payload]);
       if (error) { showSwal({ icon:'error', title:'Error', text: error.message }); }
-      else { showToast('Clip added to database! 🎉'); resetForm(); await fetchClips(); setPage('clips'); }
+      else { showToast('Clip added to database!'); resetForm(); await fetchClips(); setPage('clips'); }
     }
     setSaving(false);
   };
 
   const handleDelete = (id) => {
-    Swal.fire({
+    SwalBW.fire({
       title:'Delete Clip?', text:"This removes it from the database permanently.", icon:'warning',
-      showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#2563eb',
-      confirmButtonText:'Delete', background:'#0f1a30', color:'#e8eaf6'
+      showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#333333',
+      confirmButtonText:'Delete',
     }).then(async r => {
       if (r.isConfirmed) {
         const { error } = await sb.from('clips').delete().eq('id', id);
@@ -1239,42 +1103,31 @@ function Admin({ onBack, onLogout }) {
     { id:'clips', label:'Manage Clips', icon:'🎞️' },
   ];
 
-  const handleNavItem = (id) => {
-    setPage(id);
-    setMobileMenuOpen(false);
-  };
+  const handleNavItem = (id) => { setPage(id); };
 
   return (
     <>
       <nav className="nav">
         <div className="nav-logo" onClick={onBack} style={{cursor:'pointer'}}>
-          WADE <span className="accent">MLBB</span>Clips
-          <span style={{fontSize:'0.7rem', color:'var(--blue-light)', marginLeft:8, fontWeight:400}}>Admin</span>
+          Ainezta <span className="accent">MLBB</span>Clips
+          <span style={{fontSize:'0.7rem', color:'var(--muted)', marginLeft:8, fontWeight:400}}>Admin</span>
         </div>
         <div className="nav-right">
           <span className="db-badge">
-            <span style={{width:6,height:6,borderRadius:'50%',background:'#22c55e',display:'inline-block'}}></span>
+            <span style={{width:6,height:6,borderRadius:'50%',background:'#888',display:'inline-block'}}></span>
             Supabase
           </span>
           <button className="nav-btn" onClick={() => {
-            Swal.fire({ title:'Go to Gallery?', icon:'question', showCancelButton:true, confirmButtonColor:'#2563eb', cancelButtonColor:'#64748b', confirmButtonText:'Yes', background:'#0f1a30', color:'#e8eaf6' })
+            SwalBW.fire({ title:'Go to Gallery?', icon:'question', showCancelButton:true, confirmButtonText:'Yes' })
             .then(r => { if (r.isConfirmed) onBack(); });
           }}>Gallery</button>
           <button className="nav-btn" onClick={() => {
-            Swal.fire({ title:'Logout?', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', cancelButtonColor:'#2563eb', confirmButtonText:'Logout', background:'#0f1a30', color:'#e8eaf6' })
+            SwalBW.fire({ title:'Logout?', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', confirmButtonText:'Logout' })
             .then(r => { if (r.isConfirmed) { showToast('Logged out'); setTimeout(onLogout, 800); } });
           }}>Logout</button>
-          {/* Mobile menu toggle */}
-          <button
-            className="nav-btn mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(o => !o)}
-            style={{display:'none'}}
-            aria-label="Menu"
-          >☰</button>
         </div>
       </nav>
 
-      {/* Mobile bottom tab bar for admin */}
       <div className="admin-mobile-tabs">
         {navItems.map(item => (
           <button
@@ -1301,14 +1154,13 @@ function Admin({ onBack, onLogout }) {
           <div className="admin-nav-item" onClick={() => setPage('clips')}>
             <span>🎬</span> All Clips ({clips.length})
           </div>
-          <div style={{padding:'8px 1.25rem', fontSize:'0.75rem', color:'var(--text-muted)'}}>
+          <div style={{padding:'8px 1.25rem', fontSize:'0.75rem', color:'var(--muted)'}}>
             🗄️ Supabase DB
           </div>
         </aside>
 
         <main className="admin-main">
 
-          {/* DASHBOARD */}
           {page === 'dashboard' && (
             <>
               <div className="admin-page-title">Dashboard</div>
@@ -1317,24 +1169,23 @@ function Admin({ onBack, onLogout }) {
               <div className="admin-metrics">
                 <div className="metric-card"><div className="metric-label">Total Clips</div><div className="metric-num">{clips.length}<span>+</span></div></div>
                 <div className="metric-card"><div className="metric-label">Heroes</div><div className="metric-num">{Array.from(new Set(clips.map(c=>c.hero).filter(Boolean))).length}</div></div>
-                <div className="metric-card"><div className="metric-label">Database</div><div className="metric-num" style={{fontSize:'1rem', color:'#86efac', paddingTop:6}}>🟢 Live</div></div>
+                <div className="metric-card"><div className="metric-label">Database</div><div className="metric-num" style={{fontSize:'1rem', color:'#aaa', paddingTop:6}}>● Live</div></div>
               </div>
 
               <div className="form-card">
                 <h3>✅ Database Connected</h3>
-                <div style={{display:'flex', flexDirection:'column', gap:10, fontSize:'0.85rem', color:'var(--text-secondary)'}}>
-                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--green)', fontWeight:700, minWidth:20}}>✓</span><span>Clips are stored in <strong style={{color:'var(--text-primary)'}}>Supabase</strong> — visible to everyone instantly, no redeploy needed</span></div>
-                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--green)', fontWeight:700, minWidth:20}}>✓</span><span>Add, edit, or delete clips from the <strong style={{color:'var(--text-primary)'}}>Admin Panel</strong> and they appear live immediately</span></div>
-                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--green)', fontWeight:700, minWidth:20}}>✓</span><span>Use <strong style={{color:'var(--text-primary)'}}>Google Drive</strong> links for video hosting — paste the share link and the converter handles the rest</span></div>
-                  <div style={{marginTop:4, padding:'8px 12px', background:'rgba(34,197,94,0.08)', border:'1px solid rgba(34,197,94,0.2)', borderRadius:6, fontSize:'0.78rem', color:'#86efac'}}>
-                    🚀 Go to <strong>Upload Clip</strong> to add your first clip to the database!
+                <div style={{display:'flex', flexDirection:'column', gap:10, fontSize:'0.85rem', color:'var(--accent-2)'}}>
+                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Clips are stored in <strong style={{color:'var(--accent)'}}>Supabase</strong> — visible to everyone instantly, no redeploy needed</span></div>
+                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Add, edit, or delete clips from the <strong style={{color:'var(--accent)'}}>Admin Panel</strong> and they appear live immediately</span></div>
+                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Use <strong style={{color:'var(--accent)'}}>Google Drive</strong> links for video hosting — paste the share link and the converter handles the rest</span></div>
+                  <div style={{marginTop:4, padding:'8px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid var(--border-hv)', borderRadius:6, fontSize:'0.78rem', color:'var(--accent-2)'}}>
+                    → Go to <strong>Upload Clip</strong> to add your first clip to the database!
                   </div>
                 </div>
               </div>
             </>
           )}
 
-          {/* UPLOAD */}
           {page === 'upload' && (
             <>
               <div className="admin-page-title">{editId ? 'Edit Clip' : 'Upload New Clip'}</div>
@@ -1357,7 +1208,7 @@ function Admin({ onBack, onLogout }) {
                 </div>
                 <input ref={fileRef} type="file" accept="video/*" style={{display:'none'}} onChange={e => handleFile(e.target.files[0])} />
                 {form.url && (
-                  <div style={{marginTop:10, padding:'8px 12px', background:'rgba(34,197,94,0.08)', border:'1px solid rgba(34,197,94,0.2)', borderRadius:6, fontSize:'0.78rem', color:'#86efac'}}>
+                  <div style={{marginTop:10, padding:'8px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid var(--border-hv)', borderRadius:6, fontSize:'0.78rem', color:'var(--accent-2)'}}>
                     ✓ URL: {form.url.slice(0,80)}{form.url.length > 80 ? '...' : ''}
                   </div>
                 )}
@@ -1402,8 +1253,8 @@ function Admin({ onBack, onLogout }) {
                     )}
                   </div>
                   <div className="form-group" style={{gridColumn:'1/-1'}}>
-                    <label className="form-label">IGN</label>
-                    <input type="text" className="form-input" placeholder="Player name(s)" value={form.ign} onChange={e => setForm(p => ({...p, ign:e.target.value}))} />
+                    <label className="form-label">Owner</label>
+                    <input type="text" className="form-input" placeholder="Clip Owner" value={form.ign} onChange={e => setForm(p => ({...p, ign:e.target.value}))} />
                   </div>
                 </div>
                 <div style={{display:'flex', gap:10, marginTop:4, flexWrap:'wrap'}}>
@@ -1416,7 +1267,6 @@ function Admin({ onBack, onLogout }) {
             </>
           )}
 
-          {/* MANAGE CLIPS */}
           {page === 'clips' && (
             <>
               <div className="admin-page-title">Manage Clips</div>
@@ -1424,10 +1274,10 @@ function Admin({ onBack, onLogout }) {
               {loading ? (
                 <div style={{textAlign:'center', padding:'4rem 2rem'}}>
                   <div className="spinner" style={{margin:'0 auto 1rem'}}></div>
-                  <div style={{color:'var(--text-muted)', fontSize:'0.85rem'}}>Loading from database...</div>
+                  <div style={{color:'var(--muted)', fontSize:'0.85rem'}}>Loading from database...</div>
                 </div>
               ) : clips.length === 0 ? (
-                <div style={{textAlign:'center', padding:'4rem 2rem', color:'var(--text-muted)'}}>
+                <div style={{textAlign:'center', padding:'4rem 2rem', color:'var(--muted)'}}>
                   <div style={{fontSize:'2rem', marginBottom:'1rem'}}>🎬</div>
                   <div>No clips yet. Add one via Upload Clip.</div>
                 </div>
@@ -1436,7 +1286,7 @@ function Admin({ onBack, onLogout }) {
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Skin</th><th>Hero</th><th>IGN</th><th>Duration</th><th>Source</th><th>Actions</th>
+                        <th>Skin</th><th>Hero</th><th>Owner</th><th>Duration</th><th>Source</th><th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1444,14 +1294,14 @@ function Admin({ onBack, onLogout }) {
                         <tr key={c.id}>
                           <td className="table-title">{c.title}</td>
                           <td><span className="table-badge">{c.hero}</span></td>
-                          <td><span style={{fontSize:'0.8rem', color:'var(--text-secondary)'}}>{c.ign || '—'}</span></td>
+                          <td><span style={{fontSize:'0.8rem', color:'var(--accent-2)'}}>{c.ign || '—'}</span></td>
                           <td>{c.duration || '—'}</td>
                           <td>
                             <span style={{
                               fontSize:'0.7rem', padding:'2px 7px', borderRadius:3,
-                              background: c.url?.includes('drive.google') ? 'rgba(34,197,94,0.1)' : 'rgba(96,165,250,0.1)',
-                              border: `1px solid ${c.url?.includes('drive.google') ? 'rgba(34,197,94,0.25)' : 'rgba(96,165,250,0.25)'}`,
-                              color: c.url?.includes('drive.google') ? '#86efac' : '#93c5fd',
+                              background:'rgba(255,255,255,0.06)',
+                              border:'1px solid var(--border-hv)',
+                              color:'var(--accent-2)',
                             }}>
                               {c.url?.includes('drive.google') ? '🔗 GDrive' : c.url ? '🌐 URL' : '❌ None'}
                             </span>
@@ -1474,13 +1324,11 @@ function Admin({ onBack, onLogout }) {
         </main>
       </div>
 
-      {/* Bottom padding so content isn't hidden behind mobile tabs */}
       <div className="admin-mobile-bottom-pad" />
     </>
   );
 }
 
-// ─── APP ROOT ─────────────────────────────────────────────────────────────────
 function App() {
   const [view, setView] = useState('gallery');
   const [authed, setAuthed] = useState(false);
@@ -1507,15 +1355,28 @@ function App() {
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 
-<!-- Mobile admin tab bar styles (injected separately to keep base styles clean) -->
 <style>
-  /* Admin bottom tab bar — mobile only */
-  .admin-mobile-tabs {
-    display: none;
+  .swal2-popup.swal-popup-bw {
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 10px !important;
   }
-  .admin-mobile-bottom-pad {
-    display: none;
+  .swal2-confirm.swal-confirm-bw {
+    color: #000 !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
   }
+  .swal2-cancel.swal-cancel-bw {
+    color: #ccc !important;
+    font-weight: 600 !important;
+  }
+  .swal2-icon.swal2-success .swal2-success-ring { border-color: rgba(255,255,255,0.2) !important; }
+  .swal2-icon.swal2-success [class^=swal2-success-line] { background: #aaa !important; }
+  .swal2-icon.swal2-warning { border-color: rgba(255,255,255,0.25) !important; color: #ccc !important; }
+  .swal2-icon.swal2-error { border-color: rgba(239,68,68,0.4) !important; }
+  .swal2-timer-progress-bar { background: rgba(255,255,255,0.25) !important; }
+
+  .admin-mobile-tabs { display: none; }
+  .admin-mobile-bottom-pad { display: none; }
 
   @media (max-width: 768px) {
     .admin-mobile-tabs {
@@ -1523,9 +1384,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
       position: fixed;
       bottom: 0; left: 0; right: 0;
       z-index: 150;
-      background: rgba(10,14,26,0.97);
+      background: rgba(10,10,10,0.97);
       backdrop-filter: blur(16px);
-      border-top: 1px solid var(--border);
+      border-top: 1px solid rgba(255,255,255,0.07);
       height: 60px;
     }
     .admin-mobile-tab {
@@ -1537,31 +1398,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
       gap: 3px;
       background: transparent;
       border: none;
-      color: var(--text-muted);
+      color: #555;
       cursor: pointer;
       transition: color 0.15s, background 0.15s;
       padding: 6px 0;
       -webkit-tap-highlight-color: transparent;
     }
-    .admin-mobile-tab.active {
-      color: var(--blue-bright);
-      background: rgba(30,144,255,0.06);
-    }
-    .admin-mobile-tab:active {
-      background: rgba(30,144,255,0.1);
-    }
+    .admin-mobile-tab.active { color: #fff; background: rgba(255,255,255,0.05); }
+    .admin-mobile-tab:active { background: rgba(255,255,255,0.08); }
     .admin-mobile-tab-icon { font-size: 1.2rem; line-height: 1; }
     .admin-mobile-tab-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-
-    .admin-mobile-bottom-pad {
-      display: block;
-      height: 60px;
-    }
-
-    /* On mobile, the admin layout fills below the nav; sidebar is hidden */
-    .admin-layout {
-      min-height: calc(100vh - 56px - 60px);
-    }
+    .admin-mobile-bottom-pad { display: block; height: 60px; }
+    .admin-layout { min-height: calc(100vh - 56px - 60px); }
   }
 </style>
 </body>
