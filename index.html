@@ -883,7 +883,9 @@ function Gallery({ onAdminClick }) {
   return (
     <>
       <nav className="nav">
-        <div className="nav-logo">Ainezta<span className="accent">MLBB</span>Clips</div>
+        <div className="nav-logo">
+          <img src="ainezta.webp" alt="Ainezta MLBB Clips" style={{height:'56px', width:'auto', objectFit:'contain'}} />
+        </div>
         <div className="nav-right">
           <span className={`db-badge ${dbOnline ? '' : 'offline'}`}>
             <span style={{width:6,height:6,borderRadius:'50%',background:dbOnline?'#888':'#ef4444',display:'inline-block'}}></span>
@@ -972,7 +974,9 @@ function Login({ onLogin }) {
   return (
     <>
       <nav className="nav">
-        <div className="nav-logo">Ainezta <span className="accent">MLBB</span>Clips</div>
+        <div className="nav-logo">
+          <img src="ainezta.webp" alt="Ainezta MLBB Clips" style={{height:'56px', width:'auto', objectFit:'contain'}} />
+        </div>
       </nav>
       <div className="login-wrap">
         <div className="login-card">
@@ -1109,7 +1113,7 @@ function Admin({ onBack, onLogout }) {
     <>
       <nav className="nav">
         <div className="nav-logo" onClick={onBack} style={{cursor:'pointer'}}>
-          Ainezta <span className="accent">MLBB</span>Clips
+          <img src="ainezta.webp" alt="Ainezta MLBB Clips" style={{height:'56px', width:'auto', objectFit:'contain'}} />
           <span style={{fontSize:'0.7rem', color:'var(--muted)', marginLeft:8, fontWeight:400}}>Admin</span>
         </div>
         <div className="nav-right">
@@ -1164,7 +1168,7 @@ function Admin({ onBack, onLogout }) {
           {page === 'dashboard' && (
             <>
               <div className="admin-page-title">Dashboard</div>
-              <div className="admin-page-sub">Your MLBB Clips library — powered by Supabase</div>
+              <div className="admin-page-sub">Your MLBB Clips library</div>
 
               <div className="admin-metrics">
                 <div className="metric-card"><div className="metric-label">Total Clips</div><div className="metric-num">{clips.length}<span>+</span></div></div>
