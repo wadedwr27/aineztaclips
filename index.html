@@ -49,6 +49,14 @@
     --text-muted:     var(--muted);
     --shadow-card: var(--shadow);
     --shadow-glow: var(--glow);
+
+    /* Clip type colors */
+    --type-entrance: #a855f7;
+    --type-entrance-bg: rgba(168,85,247,0.12);
+    --type-entrance-border: rgba(168,85,247,0.35);
+    --type-clip: #3b82f6;
+    --type-clip-bg: rgba(59,130,246,0.12);
+    --type-clip-border: rgba(59,130,246,0.35);
   }
 
   html { scroll-behavior: smooth; }
@@ -112,7 +120,6 @@
   .nav-btn.admin { background: var(--accent); color: #000; border-color: var(--accent); }
   .nav-btn.admin:hover { background: var(--accent-2); }
 
-  /* ── Saved button in nav ── */
   .nav-saved-btn {
     font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
     text-transform: uppercase; padding: 6px 14px; border-radius: 4px;
@@ -178,6 +185,163 @@
   .search-input::placeholder { color: var(--muted); }
   .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.07); }
 
+  /* ── Folder landing page ── */
+  .folder-landing { max-width: 1200px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+  .folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 2.5rem;
+  }
+
+  .folder-card {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.28s cubic-bezier(0.34,1.1,0.64,1);
+    padding: 0;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .folder-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  }
+
+  .folder-card.entrance:hover { border-color: var(--type-entrance-border); }
+  .folder-card.clip:hover      { border-color: var(--type-clip-border); }
+
+  /* Folder tab notch at the top-left */
+  .folder-tab {
+    position: absolute;
+    top: -1px; left: 28px;
+    width: 80px; height: 22px;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+  .folder-card.entrance .folder-tab { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.4); }
+  .folder-card.clip      .folder-tab { background: rgba(59,130,246,0.25);  border-color: rgba(59,130,246,0.4); }
+
+  .folder-body { padding: 36px 32px 28px; flex: 1; display: flex; flex-direction: column; }
+
+  .folder-icon-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .folder-icon {
+    width: 64px; height: 64px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .folder-card.entrance .folder-icon { background: rgba(168,85,247,0.15); }
+  .folder-card.clip      .folder-icon { background: rgba(59,130,246,0.15); }
+
+  .folder-count-pill {
+    font-size: 0.78rem; font-weight: 700; padding: 5px 14px;
+    border-radius: 20px; letter-spacing: 0.04em;
+  }
+  .folder-card.entrance .folder-count-pill {
+    background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35); color: #c084fc;
+  }
+  .folder-card.clip .folder-count-pill {
+    background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.35); color: #60a5fa;
+  }
+
+  .folder-name {
+    font-size: 1.5rem; font-weight: 700; color: var(--accent);
+    letter-spacing: 0.02em; margin-bottom: 6px;
+  }
+
+  .folder-desc {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.6; flex: 1;
+  }
+
+  .folder-footer {
+    margin-top: 24px; display: flex; align-items: center;
+    justify-content: space-between;
+  }
+
+  .folder-open-btn {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 8px 20px; border-radius: 6px;
+    border: none; cursor: pointer; transition: all 0.18s; font-family: inherit;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .folder-card.entrance .folder-open-btn {
+    background: rgba(168,85,247,0.2); color: #c084fc;
+    border: 1px solid rgba(168,85,247,0.4);
+  }
+  .folder-card.entrance .folder-open-btn:hover {
+    background: var(--type-entrance); color: #fff;
+  }
+  .folder-card.clip .folder-open-btn {
+    background: rgba(59,130,246,0.2); color: #60a5fa;
+    border: 1px solid rgba(59,130,246,0.4);
+  }
+  .folder-card.clip .folder-open-btn:hover {
+    background: var(--type-clip); color: #fff;
+  }
+
+  /* Preview thumbs strip inside folder card */
+  .folder-preview-strip {
+    display: flex; gap: 4px; margin-top: 16px; height: 52px; overflow: hidden; border-radius: 8px;
+  }
+  .folder-preview-thumb {
+    flex: 1; background: var(--bg-4); border-radius: 4px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .folder-preview-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .folder-preview-thumb-empty {
+    font-size: 1rem; opacity: 0.2;
+  }
+
+  /* Folder glow accent bar at the top */
+  .folder-accent-bar {
+    height: 3px; width: 100%;
+    background: linear-gradient(90deg, transparent, var(--clr), transparent);
+  }
+  .folder-card.entrance { --clr: rgba(168,85,247,0.6); }
+  .folder-card.clip     { --clr: rgba(59,130,246,0.6); }
+
+  /* ── Browse view back button ── */
+  .browse-header {
+    max-width: 1200px; margin: 0 auto 2rem; padding: 0 2rem;
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .back-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 8px 16px; border-radius: 6px;
+    border: 1px solid var(--border-hv); background: transparent; color: var(--accent-2);
+    cursor: pointer; transition: all 0.18s; font-family: inherit;
+  }
+  .back-btn:hover { background: var(--bg-4); color: var(--accent); }
+
+  .browse-folder-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 1rem; font-weight: 700; color: var(--accent);
+  }
+  .browse-folder-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+  }
+  .browse-folder-dot.entrance { background: var(--type-entrance); }
+  .browse-folder-dot.clip     { background: var(--type-clip); }
+
+  .type-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  }
+  .type-dot.entrance { background: var(--type-entrance); }
+  .type-dot.clip     { background: var(--type-clip); }
+
   .hero-chips { max-width: 1200px; margin: 0 auto 2rem; padding: 0 2rem; display: flex; gap: 8px; flex-wrap: wrap; }
 
   .hero-chip {
@@ -188,6 +352,20 @@
 
   .hero-chip:hover { border-color: var(--border-hv); color: var(--accent-2); background: rgba(255,255,255,0.04); }
   .hero-chip.active { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.08); }
+
+  /* ── Clip type pill on cards ── */
+  .type-pill {
+    position: absolute; bottom: 8px; left: 8px;
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+    backdrop-filter: blur(4px); line-height: 1.5;
+  }
+  .type-pill.entrance {
+    background: rgba(168,85,247,0.22); border: 1px solid rgba(168,85,247,0.5); color: #c084fc;
+  }
+  .type-pill.clip {
+    background: rgba(59,130,246,0.22); border: 1px solid rgba(59,130,246,0.5); color: #60a5fa;
+  }
 
   /* ── Saved filter banner ── */
   .saved-filter-bar {
@@ -231,6 +409,8 @@
 
   .clip-card:hover { border-color: var(--border-hv); transform: translateY(-3px); box-shadow: var(--shadow), var(--glow); }
   .clip-card.is-saved { border-color: rgba(239,68,68,0.25); }
+  .clip-card.type-entrance:hover { border-color: rgba(168,85,247,0.35); }
+  .clip-card.type-clip:hover    { border-color: rgba(59,130,246,0.35); }
 
   .clip-thumb { position: relative; aspect-ratio: 16/9; background: var(--bg-3); overflow: hidden; }
   .clip-thumb video { width: 100%; height: 100%; object-fit: cover; }
@@ -265,7 +445,6 @@
     padding: 2px 7px; border-radius: 3px; background: rgba(0,0,0,0.75); color: #fff;
   }
 
-  /* ── Heart button ── */
   .heart-btn {
     position: absolute; top: 8px; right: 8px;
     width: 30px; height: 30px; border-radius: 50%;
@@ -379,7 +558,6 @@
 
   .modal-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
-  /* ── Modal heart ── */
   .modal-heart-btn {
     width: 36px; height: 36px; border-radius: 6px;
     border: 1px solid var(--border-hv); background: rgba(255,255,255,0.05);
@@ -389,6 +567,18 @@
   }
   .modal-heart-btn:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #f87171; }
   .modal-heart-btn.saved { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.5); color: #f87171; }
+
+  /* Modal type badge */
+  .modal-type-badge {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 9px; border-radius: 4px;
+  }
+  .modal-type-badge.entrance {
+    background: var(--type-entrance-bg); border: 1px solid var(--type-entrance-border); color: #c084fc;
+  }
+  .modal-type-badge.clip {
+    background: var(--type-clip-bg); border: 1px solid var(--type-clip-border); color: #60a5fa;
+  }
 
   .admin-layout { display: flex; min-height: calc(100vh - 64px); }
 
@@ -421,6 +611,8 @@
   .metric-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
   .metric-num { font-size: 2rem; font-weight: 700; color: var(--accent); }
   .metric-num span { color: var(--muted); }
+  .metric-num.purple { color: var(--type-entrance); }
+  .metric-num.blue   { color: var(--type-clip); }
 
   .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
 
@@ -445,6 +637,23 @@
   .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.07); }
   .form-select option { background: var(--bg-3); color: var(--accent); }
   .form-textarea { resize: vertical; min-height: 80px; }
+
+  /* Clip type radio group in admin form */
+  .type-radio-group {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .type-radio-label {
+    display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 6px;
+    border: 1px solid var(--border-hv); cursor: pointer; font-size: 0.85rem;
+    font-weight: 600; transition: all 0.18s; color: var(--muted); user-select: none;
+  }
+  .type-radio-label:has(input:checked).entrance-label {
+    border-color: var(--type-entrance-border); background: var(--type-entrance-bg); color: var(--type-entrance);
+  }
+  .type-radio-label:has(input:checked).clip-label {
+    border-color: var(--type-clip-border); background: var(--type-clip-bg); color: var(--type-clip);
+  }
+  .type-radio-label input { display: none; }
 
   .btn-primary {
     font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
@@ -482,6 +691,12 @@
     display: inline-block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
     text-transform: uppercase; padding: 2px 8px; border-radius: 3px;
     background: rgba(255,255,255,0.08); border: 1px solid var(--border-hv); color: var(--accent);
+  }
+  .table-badge.entrance {
+    background: var(--type-entrance-bg); border-color: var(--type-entrance-border); color: #c084fc;
+  }
+  .table-badge.clip-type {
+    background: var(--type-clip-bg); border-color: var(--type-clip-border); color: #60a5fa;
   }
 
   .table-actions { display: flex; gap: 6px; }
@@ -578,6 +793,9 @@
     .admin-main { padding: 1.25rem; }
     .clip-grid { grid-template-columns: 1fr; }
     .saved-filter-bar { padding: 0 1.25rem; }
+    .folder-landing { padding: 0 1.25rem 4rem; }
+    .folder-grid { grid-template-columns: 1fr; gap: 16px; }
+    .browse-header { padding: 0 1.25rem; }
   }
 
   @media (max-width: 480px) {
@@ -595,6 +813,11 @@
     .stat-label { font-size: 0.65rem; }
     .search-section { padding: 0 1rem; margin-bottom: 1.5rem; }
     .search-input { font-size: 0.88rem; padding: 11px 14px 11px 40px; }
+    .folder-landing { padding: 0 1rem 3rem; }
+    .folder-grid { margin-top: 1.5rem; }
+    .folder-body { padding: 28px 20px 20px; }
+    .folder-name { font-size: 1.25rem; }
+    .browse-header { padding: 0 1rem; }
     .hero-chips { padding: 0 1rem; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 6px; margin-bottom: 1.25rem; padding-bottom: 4px; }
     .hero-chips::-webkit-scrollbar { display: none; }
     .hero-chip { flex-shrink: 0; font-size: 0.75rem; padding: 6px 12px; }
@@ -605,6 +828,7 @@
     .clip-hero-tag { font-size: 0.6rem; margin-bottom: 3px; }
     .clip-badge { font-size: 0.6rem; padding: 2px 6px; }
     .clip-duration { font-size: 0.65rem; padding: 2px 5px; }
+    .type-pill { font-size: 0.56rem; padding: 2px 5px; }
     .dl-btn { font-size: 0.68rem; padding: 5px 8px; gap: 3px; }
     .dl-btn .dl-label { display: none; }
     .play-overlay { opacity: 0.7; }
@@ -626,7 +850,7 @@
     .metric-num { font-size: 1.5rem; }
     .metric-label { font-size: 0.65rem; }
     .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .admin-table { min-width: 520px; }
+    .admin-table { min-width: 580px; }
     .toast { left: 1rem; right: 1rem; bottom: 1.25rem; font-size: 0.8rem; }
     .section-header { margin-bottom: 1rem; }
     .section-title { font-size: 0.85rem; }
@@ -708,6 +932,21 @@ function getGDriveEmbedUrl(url) {
 
 function isGDriveLink(url) {
   return url && url.includes('drive.google.com');
+}
+
+// ── Clip type helpers ──
+const CLIP_TYPES = ['All', 'Entrance Animation', 'Clip'];
+
+function getTypeKey(type) {
+  if (!type || type === 'Clip') return 'clip';
+  if (type === 'Entrance Animation') return 'entrance';
+  return 'clip';
+}
+
+function TypePill({ type }) {
+  if (!type) return null;
+  const key = getTypeKey(type);
+  return <span className={`type-pill ${key}`}>{type === 'Entrance Animation' ? '✦ Entrance' : '▶ Clip'}</span>;
 }
 
 const HEROES = [
@@ -823,6 +1062,7 @@ function GDriveConverter({ onConverted }) {
 
 function VideoModal({ clip, onClose, favorites, onToggleFavorite }) {
   const isSaved = favorites.includes(String(clip.id));
+  const typeKey = getTypeKey(clip.clip_type);
 
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -837,8 +1077,13 @@ function VideoModal({ clip, onClose, favorites, onToggleFavorite }) {
       <div className="modal-content">
         <div className="modal-header">
           <div>
-            <div style={{fontSize:'0.7rem', color:'var(--accent-2)', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:3}}>
+            <div style={{fontSize:'0.7rem', color:'var(--accent-2)', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:3, display:'flex', alignItems:'center', gap:8}}>
               {clip.hero}
+              {clip.clip_type && (
+                <span className={`modal-type-badge ${typeKey}`}>
+                  {clip.clip_type === 'Entrance Animation' ? '✦ Entrance Animation' : '▶ Clip'}
+                </span>
+              )}
             </div>
             <div className="modal-title">{clip.title}</div>
           </div>
@@ -909,6 +1154,7 @@ function ClipCard({ clip, onPlay, onDownload, favorites, onToggleFavorite }) {
   const tagList = clip.ign ? clip.ign.split(',').filter(Boolean) : [];
   const isSaved = favorites.includes(String(clip.id));
   const [popping, setPopping] = useState(false);
+  const typeKey = getTypeKey(clip.clip_type);
 
   const handleHeart = (e) => {
     e.stopPropagation();
@@ -918,7 +1164,7 @@ function ClipCard({ clip, onPlay, onDownload, favorites, onToggleFavorite }) {
   };
 
   return (
-    <div className={`clip-card ${isSaved ? 'is-saved' : ''}`} onClick={() => onPlay(clip)}>
+    <div className={`clip-card ${isSaved ? 'is-saved' : ''} type-${typeKey}`} onClick={() => onPlay(clip)}>
       <div className="clip-thumb">
         {hasThumb ? (
           <img
@@ -937,6 +1183,9 @@ function ClipCard({ clip, onPlay, onDownload, favorites, onToggleFavorite }) {
         )}
         <span className="clip-badge">{clip.hero}</span>
         {clip.duration && <span className="clip-duration">{clip.duration}</span>}
+
+        {/* Clip type pill (bottom-left, above duration area) */}
+        {clip.clip_type && <TypePill type={clip.clip_type} />}
 
         {/* Heart button */}
         <button
@@ -971,12 +1220,100 @@ function ClipCard({ clip, onPlay, onDownload, favorites, onToggleFavorite }) {
   );
 }
 
+/* ── Folder landing page component ── */
+function FolderLanding({ clips, loading, onOpenFolder, favorites }) {
+  const entranceClips = clips.filter(c => c.clip_type === 'Entrance Animation');
+  const regularClips  = clips.filter(c => !c.clip_type || c.clip_type === 'Clip');
+
+  const PreviewStrip = ({ items }) => {
+    const thumbs = items.filter(c => c.thumb).slice(0, 4);
+    const slots  = Array.from({ length: 4 }, (_, i) => thumbs[i] || null);
+    return (
+      <div className="folder-preview-strip">
+        {slots.map((c, i) => (
+          <div key={i} className="folder-preview-thumb">
+            {c
+              ? <img src={c.thumb} alt="" onError={e => e.target.style.display='none'} />
+              : <span className="folder-preview-thumb-empty">🎬</span>
+            }
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const folders = [
+    {
+      key: 'Entrance Animation',
+      typeKey: 'entrance',
+      icon: '✦',
+      name: 'Entrance Animations',
+      desc: 'Hero entrance cutscenes and skin intro sequences — perfect for GMV openers.',
+      items: entranceClips,
+    },
+    {
+      key: 'Clip',
+      typeKey: 'clip',
+      icon: '▶',
+      name: 'Clips',
+      desc: 'Gameplay highlights, kills, combos and skill showcase footage for editing.',
+      items: regularClips,
+    },
+  ];
+
+  return (
+    <div className="folder-landing">
+      {loading ? (
+        <div style={{textAlign:'center', padding:'6rem 2rem'}}>
+          <div className="spinner" style={{margin:'0 auto 1rem'}}></div>
+          <div style={{color:'var(--muted)', fontSize:'0.85rem'}}>Loading library...</div>
+        </div>
+      ) : (
+        <div className="folder-grid">
+          {folders.map(f => (
+            <div
+              key={f.key}
+              className={`folder-card ${f.typeKey}`}
+              onClick={() => onOpenFolder(f.key)}
+            >
+              <div className="folder-tab" />
+              <div className="folder-accent-bar" />
+              <div className="folder-body">
+                <div className="folder-icon-row">
+                  <div className="folder-icon">{f.icon}</div>
+                  <span className="folder-count-pill">{f.items.length} clips</span>
+                </div>
+                <div className="folder-name">{f.name}</div>
+                <div className="folder-desc">{f.desc}</div>
+                <PreviewStrip items={f.items} />
+                <div className="folder-footer">
+                  <button className="folder-open-btn">
+                    Open Folder →
+                  </button>
+                  {favorites.filter(id => f.items.some(c => String(c.id) === id)).length > 0 && (
+                    <span style={{fontSize:'0.75rem', color:'#f87171', display:'flex', alignItems:'center', gap:4}}>
+                      <HeartIcon filled size={12} />
+                      {favorites.filter(id => f.items.some(c => String(c.id) === id)).length} saved
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Gallery({ onAdminClick }) {
   const [clips, setClips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dbOnline, setDbOnline] = useState(true);
   const [search, setSearch] = useState('');
   const [hero, setHero] = useState('All');
+  // null = folder home, 'Entrance Animation' | 'Clip' = inside a folder
+  const [openFolder, setOpenFolder] = useState(null);
   const [selectedClip, setSelectedClip] = useState(null);
   const [toast, setToast] = useState(null);
   const [showSaved, setShowSaved] = useState(false);
@@ -1010,7 +1347,30 @@ function Gallery({ onAdminClick }) {
     });
   }, []);
 
-  const filtered = clips.filter(c => {
+  const handleOpenFolder = (folderKey) => {
+    setOpenFolder(folderKey);
+    setHero('All');
+    setSearch('');
+    setShowSaved(false);
+  };
+
+  const handleBack = () => {
+    setOpenFolder(null);
+    setHero('All');
+    setSearch('');
+    setShowSaved(false);
+  };
+
+  // Clips inside open folder (or saved view)
+  const folderClips = openFolder
+    ? clips.filter(c =>
+        openFolder === 'Entrance Animation'
+          ? c.clip_type === 'Entrance Animation'
+          : (!c.clip_type || c.clip_type === 'Clip')
+      )
+    : clips;
+
+  const filtered = folderClips.filter(c => {
     if (showSaved && !favorites.includes(String(c.id))) return false;
     const matchHero = hero === 'All' || c.hero === hero;
     const q = search.toLowerCase();
@@ -1018,7 +1378,7 @@ function Gallery({ onAdminClick }) {
     return matchHero && matchSearch;
   });
 
-  const heroesUsed = ['All', ...Array.from(new Set(clips.map(c => c.hero).filter(Boolean)))];
+  const heroesUsed = ['All', ...Array.from(new Set(folderClips.map(c => c.hero).filter(Boolean)))];
 
   const handleDownload = (clip) => {
     if (clip.url) {
@@ -1030,80 +1390,146 @@ function Gallery({ onAdminClick }) {
   };
 
   const handleToggleSaved = () => {
-    setShowSaved(v => !v);
-    if (!showSaved) setHero('All');
+    if (!openFolder) {
+      // From home, open saved — pick whichever folder has more saved or just show all
+      setShowSaved(v => !v);
+    } else {
+      setShowSaved(v => !v);
+    }
   };
 
+  const folderTypeKey = openFolder === 'Entrance Animation' ? 'entrance' : 'clip';
+
+  const sectionTitle = () => {
+    if (showSaved) return '❤️ Saved Clips';
+    if (hero !== 'All') return `${hero} — ${openFolder === 'Entrance Animation' ? 'Entrances' : 'Clips'}`;
+    return openFolder === 'Entrance Animation' ? '✦ Entrance Animations' : '▶ Clips';
+  };
+
+  const entranceCount    = clips.filter(c => c.clip_type === 'Entrance Animation').length;
+  const regularClipCount = clips.filter(c => !c.clip_type || c.clip_type === 'Clip').length;
+
+  const Navbar = () => (
+    <nav className="nav">
+      <div className="nav-logo" onClick={openFolder ? handleBack : undefined} style={openFolder ? {cursor:'pointer'} : {}}>
+        <img src="ainezta.webp" alt="Ainezta MLBB Clips" style={{height:'56px', width:'auto', objectFit:'contain'}} />
+      </div>
+      <div className="nav-right">
+        <span className={`db-badge ${dbOnline ? '' : 'offline'}`}>
+          <span style={{width:6,height:6,borderRadius:'50%',background:dbOnline?'#888':'#ef4444',display:'inline-block'}}></span>
+          {dbOnline ? 'DB Live' : 'DB Offline'}
+        </span>
+        <button
+          className={`nav-saved-btn ${showSaved ? 'active' : ''}`}
+          onClick={handleToggleSaved}
+          title="View saved clips"
+        >
+          <HeartIcon filled={showSaved} size={14} />
+          <span>Saved</span>
+          {favorites.length > 0 && (
+            <span key={favorites.length} className="saved-count-badge">{favorites.length}</span>
+          )}
+        </button>
+        <button className="nav-btn admin" onClick={onAdminClick}>Admin</button>
+      </div>
+    </nav>
+  );
+
+  // ── HOME: folder landing ──
+  if (!openFolder && !showSaved) {
+    return (
+      <>
+        <Navbar />
+        <section className="hero">
+          <div className="hero-label">Mobile Legends Bang Bang</div>
+          <h1>MLBB <em>Clips</em><br/>for Editors</h1>
+          <p>Browse, preview & download high-quality MLBB gameplay clips organized by hero. Built for GMV Editors.</p>
+          <div className="stats-bar">
+            <div className="stat-item">
+              <div className="stat-num">{clips.length}<span>+</span></div>
+              <div className="stat-label">Total</div>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-item">
+              <div className="stat-num" style={{color:'var(--type-entrance)'}}>{entranceCount}</div>
+              <div className="stat-label">Entrances</div>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-item">
+              <div className="stat-num" style={{color:'var(--type-clip)'}}>{regularClipCount}</div>
+              <div className="stat-label">Clips</div>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-item">
+              <div className="stat-num">{Array.from(new Set(clips.map(c=>c.hero).filter(Boolean))).length}</div>
+              <div className="stat-label">Heroes</div>
+            </div>
+          </div>
+        </section>
+
+        <FolderLanding
+          clips={clips}
+          loading={loading}
+          onOpenFolder={handleOpenFolder}
+          favorites={favorites}
+        />
+
+        {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+      </>
+    );
+  }
+
+  // ── INSIDE FOLDER (or saved view) ──
   return (
     <>
-      <nav className="nav">
-        <div className="nav-logo">
-          <img src="ainezta.webp" alt="Ainezta MLBB Clips" style={{height:'56px', width:'auto', objectFit:'contain'}} />
-        </div>
-        <div className="nav-right">
-          <span className={`db-badge ${dbOnline ? '' : 'offline'}`}>
-            <span style={{width:6,height:6,borderRadius:'50%',background:dbOnline?'#888':'#ef4444',display:'inline-block'}}></span>
-            {dbOnline ? 'DB Live' : 'DB Offline'}
-          </span>
+      <Navbar />
 
-          {/* Saved/Favorites button */}
-          <button
-            className={`nav-saved-btn ${showSaved ? 'active' : ''}`}
-            onClick={handleToggleSaved}
-            title="View saved clips"
-          >
-            <HeartIcon filled={showSaved} size={14} />
-            <span>Saved</span>
-            {favorites.length > 0 && (
-              <span key={favorites.length} className="saved-count-badge">{favorites.length}</span>
-            )}
-          </button>
-
-          <button className="nav-btn admin" onClick={onAdminClick}>Admin</button>
-        </div>
-      </nav>
-
-      <section className="hero">
-        <div className="hero-label">Mobile Legends Bang Bang</div>
-        <h1>MLBB <em>Clips</em><br/>for Editors</h1>
-        <p>Browse, preview & download high-quality MLBB gameplay clips organized by hero. Built for GMV Editors.</p>
-        <div className="stats-bar">
-          <div className="stat-item">
-            <div className="stat-num">{clips.length}<span>+</span></div>
-            <div className="stat-label">Clips</div>
+      {/* Back + breadcrumb */}
+      <div className="browse-header" style={{paddingTop:'1.5rem'}}>
+        <button className="back-btn" onClick={handleBack}>
+          <ArrowLeftIcon /> Folders
+        </button>
+        {openFolder && (
+          <div className="browse-folder-label">
+            <span className={`browse-folder-dot ${folderTypeKey}`} />
+            {openFolder === 'Entrance Animation' ? 'Entrance Animations' : 'Clips'}
           </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <div className="stat-num">{Array.from(new Set(clips.map(c=>c.hero).filter(Boolean))).length}</div>
-            <div className="stat-label">Heroes</div>
+        )}
+        {showSaved && !openFolder && (
+          <div className="browse-folder-label">
+            <HeartIcon filled size={14} />
+            Saved Clips
           </div>
-          <div className="stat-divider" />
-          <div className="stat-item"><div className="stat-num">1080p</div><div className="stat-label">Quality</div></div>
-          <div className="stat-divider" />
-          <div className="stat-item"><div className="stat-num">60</div><div className="stat-label">FPS</div></div>
-        </div>
-      </section>
+        )}
+      </div>
 
-      <div className="search-section">
+      {/* Search */}
+      <div className="search-section" style={{marginBottom:'1rem'}}>
         <div className="search-wrap">
           <SearchIcon />
-          <input className="search-input" placeholder="Search clips, heroes, owner..." value={search} onChange={e => setSearch(e.target.value)} />
+          <input
+            className="search-input"
+            placeholder="Search clips, heroes, owner..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
         </div>
       </div>
 
+      {/* Hero chips */}
       <div className="hero-chips">
         {heroesUsed.map(h => (
           <button key={h} className={`hero-chip ${hero === h ? 'active' : ''}`} onClick={() => setHero(h)}>{h}</button>
         ))}
       </div>
 
-      {/* Saved filter active banner */}
+      {/* Saved banner (inside folder) */}
       {showSaved && (
         <div className="saved-filter-bar">
           <div className="saved-filter-inner">
             <HeartIcon filled size={16} />
             <span className="saved-filter-label">
-              Showing {favorites.length} saved clip{favorites.length !== 1 ? 's' : ''}
+              Showing {favorites.filter(id => folderClips.some(c => String(c.id) === id)).length} saved clip{favorites.length !== 1 ? 's' : ''}
             </span>
             <button className="saved-clear-btn" onClick={() => {
               if (window.confirm('Clear all saved clips?')) {
@@ -1112,34 +1538,29 @@ function Gallery({ onAdminClick }) {
                 setShowSaved(false);
                 setToast('Cleared all saved clips');
               }
-            }}>
-              Clear all
-            </button>
-            <button className="saved-clear-btn" style={{marginLeft:4}} onClick={() => setShowSaved(false)}>
-              ✕ Exit
-            </button>
+            }}>Clear all</button>
+            <button className="saved-clear-btn" style={{marginLeft:4}} onClick={() => setShowSaved(false)}>✕ Exit</button>
           </div>
         </div>
       )}
 
+      {/* Clip grid */}
       <div className="clip-grid-wrap">
         <div className="section-header">
-          <div className="section-title">
-            {showSaved ? '❤️ Saved Clips' : hero === 'All' ? 'All Clips' : `${hero} Clips`}
-          </div>
+          <div className="section-title">{sectionTitle()}</div>
           <span className="section-count">{filtered.length} clips</span>
         </div>
         <div className="clip-grid">
           {loading ? (
             <div className="loading-state">
               <div className="spinner"></div>
-              <div style={{color:'var(--muted)', fontSize:'0.85rem'}}>Loading clips from database...</div>
+              <div style={{color:'var(--muted)', fontSize:'0.85rem'}}>Loading clips...</div>
             </div>
           ) : filtered.length === 0 ? (
             <div className="empty-state">
-              <div className="empty-icon">{showSaved ? '🤍' : '🎬'}</div>
-              <h3>{showSaved ? 'No saved clips yet' : clips.length === 0 ? 'No clips yet' : 'No clips found'}</h3>
-              <p>{showSaved ? 'Hit the ♡ heart button on any clip to save it here' : clips.length === 0 ? 'Add clips via the Admin Panel' : 'Try a different search or hero filter'}</p>
+              <div className="empty-icon">{showSaved ? '🤍' : openFolder === 'Entrance Animation' ? '✦' : '🎬'}</div>
+              <h3>{showSaved ? 'No saved clips here' : 'No clips found'}</h3>
+              <p>{showSaved ? 'Hit the ♡ heart on any clip to save it' : 'Try a different search or hero filter'}</p>
             </div>
           ) : filtered.map(c => (
             <ClipCard
@@ -1228,7 +1649,7 @@ function Admin({ onBack, onLogout }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [form, setForm] = useState({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'' });
+  const [form, setForm] = useState({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'', clip_type:'Clip' });
   const [dragging, setDragging] = useState(false);
   const fileRef = useRef(null);
 
@@ -1266,7 +1687,7 @@ function Admin({ onBack, onLogout }) {
   };
 
   const resetForm = () => {
-    setForm({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'' });
+    setForm({ title:'', hero:'', ign:'', url:'', thumb:'', duration:'', clip_type:'Clip' });
     setEditId(null);
   };
 
@@ -1283,6 +1704,7 @@ function Admin({ onBack, onLogout }) {
       url: form.url,
       thumb: form.thumb,
       duration: form.duration,
+      clip_type: form.clip_type || 'Clip',
       date: new Date().toISOString().slice(0,10),
     };
 
@@ -1320,10 +1742,14 @@ function Admin({ onBack, onLogout }) {
       url: clip.url || '',
       thumb: clip.thumb || '',
       duration: clip.duration || '',
+      clip_type: clip.clip_type || 'Clip',
     });
     setEditId(clip.id);
     setPage('upload');
   };
+
+  const entranceCount = clips.filter(c => c.clip_type === 'Entrance Animation').length;
+  const regularCount  = clips.filter(c => !c.clip_type || c.clip_type === 'Clip').length;
 
   const navItems = [
     { id:'dashboard', label:'Dashboard', icon:'📈' },
@@ -1382,6 +1808,12 @@ function Admin({ onBack, onLogout }) {
           <div className="admin-nav-item" onClick={() => setPage('clips')}>
             <span>🎬</span> All Clips ({clips.length})
           </div>
+          <div style={{padding:'6px 1.25rem', fontSize:'0.75rem', color:'var(--type-entrance)'}}>
+            ✦ Entrances ({entranceCount})
+          </div>
+          <div style={{padding:'6px 1.25rem', fontSize:'0.75rem', color:'var(--type-clip)'}}>
+            ▶ Clips ({regularCount})
+          </div>
           <div style={{padding:'8px 1.25rem', fontSize:'0.75rem', color:'var(--muted)'}}>
             🗄️ Supabase DB
           </div>
@@ -1396,6 +1828,8 @@ function Admin({ onBack, onLogout }) {
 
               <div className="admin-metrics">
                 <div className="metric-card"><div className="metric-label">Total Clips</div><div className="metric-num">{clips.length}<span>+</span></div></div>
+                <div className="metric-card"><div className="metric-label">Entrance Anims</div><div className="metric-num purple">{entranceCount}</div></div>
+                <div className="metric-card"><div className="metric-label">Clips</div><div className="metric-num blue">{regularCount}</div></div>
                 <div className="metric-card"><div className="metric-label">Heroes</div><div className="metric-num">{Array.from(new Set(clips.map(c=>c.hero).filter(Boolean))).length}</div></div>
                 <div className="metric-card"><div className="metric-label">Database</div><div className="metric-num" style={{fontSize:'1rem', color:'#aaa', paddingTop:6}}>● Live</div></div>
               </div>
@@ -1404,10 +1838,10 @@ function Admin({ onBack, onLogout }) {
                 <h3>✅ Database Connected</h3>
                 <div style={{display:'flex', flexDirection:'column', gap:10, fontSize:'0.85rem', color:'var(--accent-2)'}}>
                   <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Clips are stored in <strong style={{color:'var(--accent)'}}>Supabase</strong> — visible to everyone instantly, no redeploy needed</span></div>
-                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Add, edit, or delete clips from the <strong style={{color:'var(--accent)'}}>Admin Panel</strong> and they appear live immediately</span></div>
+                  <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Each clip can be tagged as <strong style={{color:'var(--type-entrance)'}}>Entrance Animation</strong> or <strong style={{color:'var(--type-clip)'}}>Clip</strong> — visitors can filter by category</span></div>
                   <div style={{display:'flex', gap:10}}><span style={{color:'var(--accent)', fontWeight:700, minWidth:20}}>✓</span><span>Use <strong style={{color:'var(--accent)'}}>Google Drive</strong> links for video hosting — paste the share link and the converter handles the rest</span></div>
                   <div style={{marginTop:4, padding:'8px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid var(--border-hv)', borderRadius:6, fontSize:'0.78rem', color:'var(--accent-2)'}}>
-                    → Go to <strong>Upload Clip</strong> to add your first clip to the database!
+                    → Go to <strong>Upload Clip</strong> to add your first clip. Remember to set the <strong>Category</strong>!
                   </div>
                 </div>
               </div>
@@ -1444,6 +1878,36 @@ function Admin({ onBack, onLogout }) {
 
               <div className="form-card">
                 <h3>Clip Details</h3>
+
+                {/* Category selector */}
+                <div className="form-group" style={{marginBottom:14}}>
+                  <label className="form-label">Category *</label>
+                  <div className="type-radio-group">
+                    <label className={`type-radio-label entrance-label`}>
+                      <input
+                        type="radio"
+                        name="clip_type"
+                        value="Entrance Animation"
+                        checked={form.clip_type === 'Entrance Animation'}
+                        onChange={() => setForm(p => ({...p, clip_type:'Entrance Animation'}))}
+                      />
+                      <span className="type-dot entrance"></span>
+                      ✦ Entrance Animation
+                    </label>
+                    <label className={`type-radio-label clip-label`}>
+                      <input
+                        type="radio"
+                        name="clip_type"
+                        value="Clip"
+                        checked={form.clip_type === 'Clip'}
+                        onChange={() => setForm(p => ({...p, clip_type:'Clip'}))}
+                      />
+                      <span className="type-dot clip"></span>
+                      ▶ Clip
+                    </label>
+                  </div>
+                </div>
+
                 <div className="form-row">
                   <div className="form-group" style={{gridColumn:'1/-1'}}>
                     <label className="form-label">Skin Used *</label>
@@ -1514,34 +1978,42 @@ function Admin({ onBack, onLogout }) {
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Skin</th><th>Hero</th><th>Owner</th><th>Duration</th><th>Source</th><th>Actions</th>
+                        <th>Skin</th><th>Category</th><th>Hero</th><th>Owner</th><th>Duration</th><th>Source</th><th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {clips.map(c => (
-                        <tr key={c.id}>
-                          <td className="table-title">{c.title}</td>
-                          <td><span className="table-badge">{c.hero}</span></td>
-                          <td><span style={{fontSize:'0.8rem', color:'var(--accent-2)'}}>{c.ign || '—'}</span></td>
-                          <td>{c.duration || '—'}</td>
-                          <td>
-                            <span style={{
-                              fontSize:'0.7rem', padding:'2px 7px', borderRadius:3,
-                              background:'rgba(255,255,255,0.06)',
-                              border:'1px solid var(--border-hv)',
-                              color:'var(--accent-2)',
-                            }}>
-                              {c.url?.includes('drive.google') ? '🔗 GDrive' : c.url ? '🌐 URL' : '❌ None'}
-                            </span>
-                          </td>
-                          <td>
-                            <div className="table-actions">
-                              <button className="dl-btn" style={{padding:'4px 10px'}} onClick={() => handleEdit(c)}><EditIcon /> Edit</button>
-                              <button className="btn-danger" onClick={() => handleDelete(c.id)}><TrashIcon /> Del</button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {clips.map(c => {
+                        const typeKey = getTypeKey(c.clip_type);
+                        return (
+                          <tr key={c.id}>
+                            <td className="table-title">{c.title}</td>
+                            <td>
+                              <span className={`table-badge ${typeKey === 'entrance' ? 'entrance' : 'clip-type'}`}>
+                                {c.clip_type === 'Entrance Animation' ? '✦ Entrance' : '▶ Clip'}
+                              </span>
+                            </td>
+                            <td><span className="table-badge">{c.hero}</span></td>
+                            <td><span style={{fontSize:'0.8rem', color:'var(--accent-2)'}}>{c.ign || '—'}</span></td>
+                            <td>{c.duration || '—'}</td>
+                            <td>
+                              <span style={{
+                                fontSize:'0.7rem', padding:'2px 7px', borderRadius:3,
+                                background:'rgba(255,255,255,0.06)',
+                                border:'1px solid var(--border-hv)',
+                                color:'var(--accent-2)',
+                              }}>
+                                {c.url?.includes('drive.google') ? '🔗 GDrive' : c.url ? '🌐 URL' : '❌ None'}
+                              </span>
+                            </td>
+                            <td>
+                              <div className="table-actions">
+                                <button className="dl-btn" style={{padding:'4px 10px'}} onClick={() => handleEdit(c)}><EditIcon /> Edit</button>
+                                <button className="btn-danger" onClick={() => handleDelete(c.id)}><TrashIcon /> Del</button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
